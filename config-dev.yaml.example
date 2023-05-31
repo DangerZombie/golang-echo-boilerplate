@@ -1,0 +1,17 @@
+# database settings
+database:
+  driver: your-driver
+  host: your-host
+  port: your-port
+  username: your-username
+  password: your-password
+  dbname: your-db-name
+
+# server setting
+server:
+  network: your-network
+  address: your-address
+
+# secret key settings
+jwt:
+  secret-key: your-secret-key

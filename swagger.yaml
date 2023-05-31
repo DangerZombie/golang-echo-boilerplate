@@ -1,0 +1,220 @@
+basePath: /development/api/v1
+consumes:
+- application/json
+definitions:
+  DataResponse:
+    properties:
+      record:
+        type: object
+        x-go-name: Record
+      records:
+        type: object
+        x-go-name: Records
+    type: object
+    x-go-name: data
+    x-go-package: go-echo/model/base
+  InsertDriverResponse:
+    properties:
+      created_at:
+        description: |-
+          Created At
+          in: string
+        example: "2023-03-30 10:39:44"
+        type: string
+        x-go-name: CreatedAt
+      created_by:
+        description: |-
+          Created By
+          in: string
+        example: system
+        type: string
+        x-go-name: CreatedBy
+      id:
+        description: |-
+          ID
+          in: string
+        example: 5c091047-f19c-4235-be8d-b6596aecf880
+        type: string
+        x-go-name: Id
+      is_available:
+        description: |-
+          Is Available
+          in: bool
+        example: true
+        type: boolean
+        x-go-name: IsAvailable
+      license_number:
+        description: |-
+          Licensse Number
+          in: string
+        example: "89011231091"
+        type: string
+        x-go-name: LicenseNumber
+      name:
+        description: |-
+          Name
+          in: string
+        example: John
+        type: string
+        x-go-name: Name
+      updated_at:
+        description: |-
+          Updated At
+          in: string
+        example: "2023-03-30 10:39:44"
+        type: string
+        x-go-name: UpdatedAt
+      updated_by:
+        description: |-
+          Updated By
+          in: string
+        example: system
+        type: string
+        x-go-name: UpdatedBy
+    type: object
+    x-go-package: go-echo/model/response
+  MetaResponse:
+    properties:
+      code:
+        description: |-
+          Code is the response code
+          in: int
+        format: int64
+        type: integer
+        x-go-name: Code
+      message:
+        description: |-
+          Message is the response message
+          in: string
+        type: string
+        x-go-name: Message
+      pagination:
+        $ref: '#/definitions/PaginationResponse'
+    type: object
+    x-go-name: metaResponse
+    x-go-package: go-echo/model/base
+  MetaSingleSuccessResponse:
+    properties:
+      code:
+        description: |-
+          Code of Response
+          in: int
+        example: 1000
+        format: int64
+        type: integer
+        x-go-name: Code
+      message:
+        description: |-
+          Message of Response
+          in: string
+        example: Success
+        type: string
+        x-go-name: Message
+    type: object
+    x-go-package: go-echo/model/entity
+  PaginationResponse:
+    properties:
+      limit:
+        format: int64
+        type: integer
+        x-go-name: Limit
+      page:
+        format: int64
+        type: integer
+        x-go-name: Page
+      records:
+        format: int64
+        type: integer
+        x-go-name: Records
+      total_page:
+        format: int64
+        type: integer
+        x-go-name: TotalPage
+      total_records:
+        format: int64
+        type: integer
+        x-go-name: TotalRecords
+    type: object
+    x-go-name: Pagination
+    x-go-package: go-echo/model/base
+  SuccessResponse:
+    properties:
+      data:
+        $ref: '#/definitions/DataResponse'
+      errors:
+        description: |-
+          Errors is the response message
+          in: string
+        type: object
+        x-go-name: Errors
+      meta:
+        $ref: '#/definitions/MetaResponse'
+    type: object
+    x-go-name: responseHttp
+    x-go-package: go-echo/model/base
+info:
+  title: 'Echo Boilerplate API:'
+  version: "1.0"
+paths:
+  /driver/:
+    post:
+      description: Add Driver
+      operationId: InsertDriverRequest
+      parameters:
+      - description: |-
+          Name
+          in: string
+        example: John
+        in: query
+        name: name
+        type: string
+        x-go-name: Name
+      - description: |-
+          License Number
+          in: string
+        example: "8901119012"
+        in: query
+        name: license_number
+        type: string
+        x-go-name: LicenseNumber
+      - description: |-
+          Is Available
+          in: bool
+        example: true
+        in: query
+        name: is_available
+        type: boolean
+        x-go-name: IsAvailable
+      responses:
+        "200":
+          description: Success Response.
+          schema:
+            properties:
+              data:
+                properties:
+                  record:
+                    $ref: '#/definitions/InsertDriverResponse'
+                type: object
+              meta:
+                $ref: '#/definitions/MetaSingleSuccessResponse'
+      security:
+      - Bearer: []
+      tags:
+      - Driver
+produces:
+- application/json
+- text/html; charset=utf-8
+responses:
+  MetaSingleResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/MetaSingleSuccessResponse'
+schemes:
+- http
+- https
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
