@@ -1,4 +1,4 @@
-package repository
+package user
 
 import (
 	"errors"
@@ -6,18 +6,6 @@ import (
 
 	"gorm.io/gorm"
 )
-
-type userRepo struct {
-	base BaseRepository
-}
-
-type UserRepository interface {
-	GetUser(db *gorm.DB, username string, password string) (*entity.User, error)
-}
-
-func NewUserRepository(br BaseRepository) UserRepository {
-	return &userRepo{br}
-}
 
 func (r *userRepo) GetUser(db *gorm.DB, username string, password string) (*entity.User, error) {
 	var user entity.User

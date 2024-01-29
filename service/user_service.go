@@ -6,6 +6,7 @@ import (
 	"go-echo/model/request"
 	"go-echo/model/response"
 	"go-echo/repository"
+	"go-echo/repository/user"
 
 	"go.uber.org/zap"
 )
@@ -13,7 +14,7 @@ import (
 type userServiceImpl struct {
 	logger   *zap.Logger
 	baseRepo repository.BaseRepository
-	userRepo repository.UserRepository
+	userRepo user.UserRepository
 }
 
 type UserService interface {
@@ -23,7 +24,7 @@ type UserService interface {
 func NewUserService(
 	lg *zap.Logger,
 	br repository.BaseRepository,
-	ur repository.UserRepository,
+	ur user.UserRepository,
 ) UserService {
 	return &userServiceImpl{lg, br, ur}
 }
