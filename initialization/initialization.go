@@ -4,6 +4,7 @@ import (
 	"go-echo/helper/database"
 	transport "go-echo/http"
 	"go-echo/repository"
+	"go-echo/repository/user"
 	"go-echo/service"
 
 	"github.com/labstack/echo"
@@ -35,7 +36,7 @@ func DbInit() (*gorm.DB, error) {
 
 func ServerInit(log *zap.Logger, db *gorm.DB) {
 	driverSvc := service.NewDriverService(log, repository.NewBaseRepository(db), repository.NewDriverRepository(repository.NewBaseRepository(db)))
-	userSvc := service.NewUserService(log, repository.NewBaseRepository(db), repository.NewUserRepository(repository.NewBaseRepository(db)))
+	userSvc := service.NewUserService(log, repository.NewBaseRepository(db), user.NewUserRepository(repository.NewBaseRepository(db)))
 
 	r := echo.New()
 	apiGroupDriver := r.Group("/api/driver")
