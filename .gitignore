@@ -20,6 +20,7 @@
 *.xls  
 *.xlsx
 *.log
+config-dev.yaml
 
 # Test binary, build with `go test -c`
 *.test

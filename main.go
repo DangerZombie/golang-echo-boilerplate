@@ -1,47 +1,28 @@
-//  Echo Boilerplate API:
-//   version: 1.0
-//   title: Echo Framework Boilerplate
-//  Schemes: http, https
-//  BasePath: /development/api/v1
-//    Consumes:
-//    - application/json
-//  Produces:
-//  - application/json
-//  - text/html; charset=utf-8
-//  securityDefinitions:
-//   Bearer:
-//    type: apiKey
-//    name: Authorization
-//    in: header
+//	Echo Boilerplate API:
+//	 version: 1.0
+//	 title: Echo Framework Boilerplate
+//	Schemes: http, https
+//	BasePath: /development/api/v1
+//	  Consumes:
+//	  - application/json
+//	Produces:
+//	- application/json
+//	- text/html; charset=utf-8
+//	securityDefinitions:
+//	 Bearer:
+//	  type: apiKey
+//	  name: Authorization
+//	  in: header
+//
 // swagger:meta
 package main
 
 import (
 	"go-echo/initialization"
-	"net/http"
 	"strings"
 
-	"github.com/labstack/echo"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
-)
-
-var ActionIndex = func(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("from action index"))
-}
-
-var ActionHome = http.HandlerFunc(
-	func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("from action home"))
-	},
-)
-
-var ActionAbout = echo.WrapHandler(
-	http.HandlerFunc(
-		func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("from action about"))
-		},
-	),
 )
 
 func main() {
