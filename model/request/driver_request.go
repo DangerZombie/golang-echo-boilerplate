@@ -4,17 +4,14 @@ package request
 type InsertDriverRequest struct {
 	// Name
 	// in: string
-	// example: John
 	Name string `json:"name"`
 
 	// License Number
 	// in: string
-	// example: 8901119012
 	LicenseNumber string `json:"license_number"`
 
 	// Is Available
 	// in: bool
-	// example: true
 	IsAvailable bool `json:"is_available"`
 }
 
