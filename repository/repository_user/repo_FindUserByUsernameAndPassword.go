@@ -1,4 +1,4 @@
-package user
+package repository_user
 
 import (
 	"errors"
@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (r *userRepo) GetUser(db *gorm.DB, username string, password string) (*entity.User, error) {
+func (r *userRepo) FindUserByUsernameAndPassword(db *gorm.DB, username string, password string) (*entity.User, error) {
 	var user entity.User
 	err := db.
 		Model(&entity.User{}).

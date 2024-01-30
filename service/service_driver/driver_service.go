@@ -1,4 +1,4 @@
-package service
+package service_driver
 
 import (
 	"go-echo/helper/message"
@@ -8,32 +8,9 @@ import (
 	"go-echo/model/entity"
 	"go-echo/model/request"
 	"go-echo/model/response"
-	"go-echo/repository"
 
 	"go.uber.org/zap"
 )
-
-type driverServiceImpl struct {
-	logger     *zap.Logger
-	baseRepo   repository.BaseRepository
-	driverRepo repository.DriverRepository
-}
-
-type DriverService interface {
-	InsertDriver(req request.InsertDriverRequest) (*response.InsertDriverResponse, message.Message, interface{})
-	GetListDrivers(req request.GetListDriversRequest) ([]response.InsertDriverResponse, *base.Pagination, message.Message, interface{})
-	GetDriverByNumber(req request.GetDriverByNumber) (*response.GetDriverByNumberResponse, message.Message, interface{})
-	UpdateDriverByNumber(req request.UpdateDriverByNumber) (*response.UpdateDriverByNumberResponse, message.Message, interface{})
-	DeleteDriverByNumber(req request.DeleteDriverByNumber) (*response.DeleteDriverByNumberResponse, message.Message, interface{})
-}
-
-func NewDriverService(
-	lg *zap.Logger,
-	br repository.BaseRepository,
-	dr repository.DriverRepository,
-) DriverService {
-	return &driverServiceImpl{lg, br, dr}
-}
 
 // swagger:operation POST /driver/ Driver InsertDriverRequest
 // Add Driver
@@ -47,12 +24,13 @@ func NewDriverService(
 //     schema:
 //       properties:
 //         meta:
-//          $ref: '#/definitions/MetaSingleSuccessResponse'
+//           $ref: '#/definitions/MetaSingleSuccessResponse'
 //         data:
 //           properties:
 //             record:
 //               $ref: '#/definitions/InsertDriverResponse'
 //           type: object
+
 func (s *driverServiceImpl) InsertDriver(req request.InsertDriverRequest) (*response.InsertDriverResponse, message.Message, interface{}) {
 	logger := s.logger.With(zap.String("DriverService", "InsertDriver"))
 	errMsg := map[string]string{}

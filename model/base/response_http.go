@@ -13,17 +13,17 @@ type responseHttp struct {
 	// in: DataResponse
 	Data data `json:"data"`
 	// Errors is the response message
-	//in: string
+	// in: string
 	Errors interface{} `json:"errors,omitempty"`
 }
 
 // swagger:model MetaResponse
 type metaResponse struct {
 	// Code is the response code
-	//in: int
+	// in: int
 	Code int `json:"code"`
 	// Message is the response message
-	//in: string
+	// in: string
 	Message string `json:"message"`
 	// Pagination of the paginate respons
 	// in: PaginationResponse

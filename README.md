@@ -10,11 +10,11 @@ These instructions will get you a copy of the project up and running on your loc
 These are the prerequisite library to run the project:
 
 - [Go](https://golang.org/doc/install)
+- [mockgen](https://github.com/uber-go/mock)
 <!-- - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [GNU Make](https://www.gnu.org/software/make/)
 - [oapi-codegen](https://github.com/deepmap/oapi-codegen)
-- [mockgen](https://github.com/uber-go/mock)
 - [wire](https://github.com/google/wire)
 - [migrate](https://github.com/golang-migrate/migrate)
 - [gcloud CLI](https://cloud.google.com/sdk/docs/install)
@@ -30,9 +30,15 @@ A step-by-step series of examples that tell you how to get a development env run
 git clone
 ```
 
-2. Open the cloned repository. We recommend you to use Visual Studio Code because it's free and light but powerfull. [Visual Studio Code](https://code.visualstudio.com/download)
+2. Intialize the project
 
-3. Create lauch.json, to make you eaiser to run and debug the program. This step if you use Visual Studio Code.
+```bash
+make init
+```
+
+3. Open the cloned repository. We recommend you to use Visual Studio Code because it's free and light but powerfull. [Visual Studio Code](https://code.visualstudio.com/download)
+
+4. Create lauch.json, to make you eaiser to run and debug the program. This step if you use Visual Studio Code.
 
 ```json
 {
@@ -43,7 +49,7 @@ git clone
             "type": "go",
             "request": "launch",
             "env": {
-                "localhost": "9000" // use you prefer port
+                "localhost": "9000" // use your prefer port
             },
             "mode": "debug",
             "program": "main.go"
@@ -52,7 +58,7 @@ git clone
 }
 ```
 
-4. Ask the Backend team on the latest `config-*.yaml` for running the project. Please note this config will not be uploaded to the repository.
+5. Ask the Backend team on the latest `config-*.yaml` for running the project. Please note this config will not be uploaded to the repository.
 
 ## 2. Development
 
@@ -73,9 +79,9 @@ This is similar with the unit tests. For every `.go` source code, write a corres
 The test function has to use prefix `TestIntegration_` so that we can run the integration tests separately from the unit tests. After the prefix, you can name the test function according to the test case or function that you want to test. Right below the function name, you have to put the following line:
 
 ```go
-	if testing.Short() {
-		t.Skip("skipping integration test")
-	}
+if testing.Short() {
+    t.Skip("skipping integration test")
+}
 ```
 
 This is to skip the integration test when we run the unit tests.
@@ -84,3 +90,62 @@ This is to skip the integration test when we run the unit tests.
 
 Run the following to run the tests
 
+```bash
+make generate_mocks
+```
+
+Excute this to run the unit test
+
+```bash
+make test_unit
+```
+
+Execute this to run the integration test
+```bash
+make test_integration
+```
+
+### 2.2. Working Directory
+
+This project also have many folder inside, then to minimize the complexity the directory will as follow:
+
+project/
+├── .github/
+│   ├── workflow/
+│   └── ...
+├── endpoint/
+│   └── ...
+├── helper/
+│   ├── auth/
+│   ├── database/
+│   ├── http_helper/
+│   ├── message/
+│   ├── static/
+│   ├── util/
+│   └── ...
+├── http/
+│   └── ...
+├── initialization/
+│   └── ...
+├── model/
+│   ├── base/
+│   ├── entity/
+│   ├── request/
+│   ├── response/
+│   └── ...
+├── repository/
+│   ├── repository_user/
+│   └── ...
+├── service/
+│   ├── service_user/
+│   └── ...
+
+Explanations:
+
+1. `.github` folder contains whole files related github.
+2. `endpoint` folder contains whole files for related the endpoint of the API.
+3. `helper` folder contains whole files for help code easier such as auth logic, conversion logic, etc.
+4. `http` folder contains files conversion result after processing and convert according with the response.
+5. `model` folder contains model entity represent of the database column.
+6. `repository` folder contains files to querying the data to database.
+7. `service` folder contains files with business logic or other logic.

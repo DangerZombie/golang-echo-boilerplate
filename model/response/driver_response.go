@@ -5,12 +5,12 @@ type InsertDriverResponse struct {
 	// ID
 	// in: string
 	// example: 5c091047-f19c-4235-be8d-b6596aecf880
-	Id            string `json:"id"`
+	Id string `json:"id"`
 
 	// Name
 	// in: string
 	// example: John
-	Name          string `json:"name"`
+	Name string `json:"name"`
 
 	// Licensse Number
 	// in: string
@@ -20,27 +20,27 @@ type InsertDriverResponse struct {
 	// Is Available
 	// in: bool
 	// example: true
-	IsAvailable   bool   `json:"is_available"`
+	IsAvailable bool `json:"is_available"`
 
 	// Created At
 	// in: string
 	// example: 2023-03-30 10:39:44
-	CreatedAt     string `json:"created_at"`
+	CreatedAt string `json:"created_at"`
 
 	// Created By
 	// in: string
 	// example: system
-	CreatedBy     string `json:"created_by"`
+	CreatedBy string `json:"created_by"`
 
 	// Updated At
 	// in: string
 	// example: 2023-03-30 10:39:44
-	UpdatedAt     string `json:"updated_at"`
+	UpdatedAt string `json:"updated_at"`
 
 	// Updated By
 	// in: string
 	// example: system
-	UpdatedBy     string `json:"updated_by"`
+	UpdatedBy string `json:"updated_by"`
 }
 
 type GetListDriversResponse struct {

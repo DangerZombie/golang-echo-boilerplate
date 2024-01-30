@@ -1,4 +1,4 @@
-package repository
+package repository_driver
 
 import (
 	"errors"
@@ -6,6 +6,7 @@ import (
 	"go-echo/helper/util"
 	"go-echo/model/base"
 	"go-echo/model/entity"
+	"go-echo/repository"
 	"math"
 	"strings"
 
@@ -14,7 +15,7 @@ import (
 )
 
 type driverRepo struct {
-	base BaseRepository
+	base repository.BaseRepository
 }
 
 type DriverRepository interface {
@@ -25,7 +26,7 @@ type DriverRepository interface {
 	DeleteDriverByNumber(db *gorm.DB, licenseNumber string) error
 }
 
-func NewDriverRepository(br BaseRepository) DriverRepository {
+func NewDriverRepository(br repository.BaseRepository) DriverRepository {
 	return &driverRepo{br}
 }
 

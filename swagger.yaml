@@ -71,6 +71,17 @@ definitions:
                 x-go-name: UpdatedBy
         type: object
         x-go-package: go-echo/model/response
+    LoginResponse:
+        properties:
+            token:
+                description: |-
+                    Token
+                    in: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MDY1ODMwNTYsInVzZXIiOiJhZG1pbiJ9.F-bBdILVQIg9kj8mWGn5ma7qDoyzSbiUojQz6EW_hJs
+                type: string
+                x-go-name: Token
+        type: object
+        x-go-package: go-echo/model/response
     MetaResponse:
         properties:
             code:
@@ -195,6 +206,24 @@ paths:
                 - Bearer: []
             tags:
                 - Driver
+    /user/login:
+        get:
+            description: Login user
+            operationId: LoginRequest
+            responses:
+                "200":
+                    description: Success Response.
+                    schema:
+                        properties:
+                            data:
+                                properties:
+                                    record:
+                                        $ref: '#/definitions/LoginResponse'
+                                type: object
+                            meta:
+                                $ref: '#/definitions/MetaSingleSuccessResponse'
+            tags:
+                - User
 produces:
     - application/json
     - text/html; charset=utf-8

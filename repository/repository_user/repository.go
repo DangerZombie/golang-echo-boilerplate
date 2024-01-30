@@ -1,4 +1,4 @@
-package user
+package repository_user
 
 import (
 	"go-echo/model/entity"
@@ -12,9 +12,9 @@ type userRepo struct {
 }
 
 type UserRepository interface {
-	GetUser(db *gorm.DB, username string, password string) (*entity.User, error)
+	FindUserByUsernameAndPassword(db *gorm.DB, username string, password string) (*entity.User, error)
 }
 
-func NewUserRepository(br repository.BaseRepository) UserRepository {
+func NewUserRepository(br repository.BaseRepository) *userRepo {
 	return &userRepo{br}
 }
