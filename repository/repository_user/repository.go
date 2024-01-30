@@ -15,6 +15,6 @@ type UserRepository interface {
 	FindUserByUsernameAndPassword(db *gorm.DB, username string, password string) (*entity.User, error)
 }
 
-func NewUserRepository(br repository.BaseRepository) *userRepo {
+func NewUserRepository(br repository.BaseRepository) UserRepository {
 	return &userRepo{br}
 }
