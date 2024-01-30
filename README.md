@@ -109,6 +109,7 @@ make test_integration
 
 This project also have many folder inside, then to minimize the complexity the directory will as follow:
 
+```
 project/
 ├── .github/
 │   ├── workflow/
@@ -139,6 +140,7 @@ project/
 ├── service/
 │   ├── service_user/
 │   └── ...
+```
 
 Explanations:
 

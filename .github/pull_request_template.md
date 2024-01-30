@@ -1,13 +1,9 @@
-# 🚀 Pull Request: [Brief Title of the Change]
+# 🚀 Pull Request
 
 **Type of Change:**
-_(Choose one)_
-- [ ] 🐛 **Bug Fix**
-- [ ] ✨ **Feature Addition**
-- [ ] 📚 **Documentation Update**
-- [ ] ♻️ **Refactoring**
-- [ ] ⚡️ **Performance Enhancement**
-- [ ] 🔄 **Other Changes**
+| Type         | Change            |
+|--------------|-------------------|
+| Pull Request | <!--Bug Fix, Feature Addition, Refactoring->|
 
 **🌐 Context**
 <!--(Explain the context of this change. Is it related to a specific issue or additional work?)-->
