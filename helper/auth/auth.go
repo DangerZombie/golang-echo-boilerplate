@@ -10,7 +10,19 @@ import (
 	"github.com/spf13/viper"
 )
 
-func GenerateJWT(username string) (string, error) {
+type authHelperImpl struct {
+}
+
+type AuthHelper interface {
+	GenerateJWT(username string) (string, error)
+	VerifyJWT(headers http.Header) (string, error)
+}
+
+func NewAuthHelper() AuthHelper {
+	return &authHelperImpl{}
+}
+
+func (h *authHelperImpl) GenerateJWT(username string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
@@ -27,7 +39,7 @@ func GenerateJWT(username string) (string, error) {
 	return tokenString, nil
 }
 
-func VerifyJWT(headers http.Header) (string, error) {
+func (h *authHelperImpl) VerifyJWT(headers http.Header) (string, error) {
 	tokenString := strings.Split(headers["Authorization"][0], " ")[1]
 
 	// Parse the JWT token

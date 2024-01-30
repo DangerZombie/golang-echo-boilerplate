@@ -13,8 +13,8 @@ type MetaSingleSuccessResponse struct {
 	Message string `json:"message"`
 }
 
-//swagger:response
+// swagger:response
 type MetaSingleResponse struct {
-	//in: body
+	// in: body
 	Response MetaSingleSuccessResponse `json:"response"`
 }

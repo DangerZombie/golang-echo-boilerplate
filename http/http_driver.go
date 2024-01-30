@@ -2,13 +2,13 @@ package http
 
 import (
 	"go-echo/endpoint"
-	"go-echo/service"
+	"go-echo/service/service_driver"
 	"net/http"
 
 	"github.com/labstack/echo"
 )
 
-func DriverHandler(group *echo.Group, s service.DriverService) {
+func DriverHandler(group *echo.Group, s service_driver.DriverService) {
 	group.POST("/", func(ctx echo.Context) error {
 		result := endpoint.InsertDriverRequest(ctx, s)
 		return ctx.JSON(http.StatusOK, result)

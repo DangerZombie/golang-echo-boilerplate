@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"go-echo/model/base"
 	"go-echo/model/request"
-	"go-echo/service"
+	"go-echo/service/service_user"
 
 	"github.com/labstack/echo"
 )
 
-func LoginRequest(ctx echo.Context, s service.UserService) interface{} {
+func LoginRequest(ctx echo.Context, s service_user.UserService) interface{} {
 	req := request.LoginRequest{}
 	_ = json.NewDecoder(ctx.Request().Body).Decode(&req)
 	result, msg, errMsg := s.Login(req)

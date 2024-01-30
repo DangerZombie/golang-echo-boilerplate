@@ -2,17 +2,15 @@ package endpoint
 
 import (
 	"encoding/json"
-	"go-echo/helper/auth"
-	"go-echo/helper/message"
 	"go-echo/model/base"
 	"go-echo/model/request"
-	"go-echo/service"
+	"go-echo/service/service_driver"
 	"net/http"
 
 	"github.com/labstack/echo"
 )
 
-func InsertDriverRequest(ctx echo.Context, s service.DriverService) interface{} {
+func InsertDriverRequest(ctx echo.Context, s service_driver.DriverService) interface{} {
 	req := request.InsertDriverRequest{}
 	_ = json.NewDecoder(ctx.Request().Body).Decode(&req)
 	result, msg, errMsg := s.InsertDriver(req)
@@ -27,7 +25,7 @@ func InsertDriverRequest(ctx echo.Context, s service.DriverService) interface{} 
 	return wrap
 }
 
-func GetListDriversRequest(ctx echo.Context, s service.DriverService) interface{} {
+func GetListDriversRequest(ctx echo.Context, s service_driver.DriverService) interface{} {
 	req := request.GetListDriversRequest{}
 	_ = json.NewDecoder(ctx.Request().Body).Decode(&req)
 	result, pagination, msg, errMsg := s.GetListDrivers(req)
@@ -42,16 +40,16 @@ func GetListDriversRequest(ctx echo.Context, s service.DriverService) interface{
 	return wrap
 }
 
-func GetDriverByNumberRequest(ctx echo.Context, s service.DriverService) (int, interface{}) {
+func GetDriverByNumberRequest(ctx echo.Context, s service_driver.DriverService) (int, interface{}) {
 	// JWT verify
 	var wrap interface{}
 	var status int
-	_, err := auth.VerifyJWT(ctx.Request().Header)
-	if err != nil {
-		wrap = base.SetHttpResponse(message.ErrNoAuth.Code, message.ErrNoAuth.Message, nil, nil, nil)
-		status = http.StatusUnauthorized
-		return status, wrap
-	}
+	// _, err := auth.VerifyJWT(ctx.Request().Header)
+	// if err != nil {
+	// 	wrap = base.SetHttpResponse(message.ErrNoAuth.Code, message.ErrNoAuth.Message, nil, nil, nil)
+	// 	status = http.StatusUnauthorized
+	// 	return status, wrap
+	// }
 
 	req := request.GetDriverByNumber{}
 	req.Number = ctx.Param("number")
@@ -68,7 +66,7 @@ func GetDriverByNumberRequest(ctx echo.Context, s service.DriverService) (int, i
 	return status, wrap
 }
 
-func UpdateDriverByNumberRequest(ctx echo.Context, s service.DriverService) interface{} {
+func UpdateDriverByNumberRequest(ctx echo.Context, s service_driver.DriverService) interface{} {
 	req := request.UpdateDriverByNumber{}
 	_ = json.NewDecoder(ctx.Request().Body).Decode(&req)
 	result, msg, errMsg := s.UpdateDriverByNumber(req)
@@ -83,7 +81,7 @@ func UpdateDriverByNumberRequest(ctx echo.Context, s service.DriverService) inte
 	return wrap
 }
 
-func DeleteDriverByNumberRequest(ctx echo.Context, s service.DriverService) interface{} {
+func DeleteDriverByNumberRequest(ctx echo.Context, s service_driver.DriverService) interface{} {
 	req := request.DeleteDriverByNumber{}
 	_ = json.NewDecoder(ctx.Request().Body).Decode(&req)
 	result, msg, errMsg := s.DeleteDriverByNumber(req)
