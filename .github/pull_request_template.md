@@ -3,7 +3,7 @@
 **Type of Change:**
 | Type         | Change            |
 |--------------|-------------------|
-| Pull Request | <!--Bug Fix, Feature Addition, Refactoring->|
+| Pull Request | <!--Bug Fix, Feature Addition, Refactoring-> |
 
 **🌐 Context**
 <!--(Explain the context of this change. Is it related to a specific issue or additional work?)-->

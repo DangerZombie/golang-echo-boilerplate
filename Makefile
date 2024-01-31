@@ -1,11 +1,12 @@
 init:
 	go mod tidy
+	make generate_mocks
 
 clean:
 	find . -name "*.mock.gen.go" -type f -delete
 
 # Generate mock files
-GO_FILES := $(shell find repository service helper/auth endpoint -name "service.go" -o -name "repository.go" -o -name "auth.go" -o -name "endpoint.go")
+GO_FILES := $(shell find ./ -name "interface.go")
 GEN_GO_FILES := $(GO_FILES:%.go=%.mock.gen.go)
 
 generate_mocks: $(GEN_GO_FILES)

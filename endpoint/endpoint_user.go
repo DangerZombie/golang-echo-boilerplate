@@ -31,7 +31,6 @@ func (e *endpointImpl) LoginRequest(ctx echo.Context, s service_user.UserService
 
 func (e *endpointImpl) UserProfileRequest(ctx echo.Context, s service_user.UserService) (int, interface{}) {
 	// Verify JWT token from the request headers
-	// authHelper := auth.NewAuthHelper()
 	_, err := e.authHelper.VerifyJWT(ctx.Request().Header)
 	if err != nil {
 		wrap := base.SetHttpResponse(message.ErrNoAuth.Code, message.ErrNoAuth.Message, nil, nil, map[string]string{"token": err.Error()})
