@@ -2,7 +2,6 @@ package endpoint
 
 import (
 	"encoding/json"
-	"go-echo/helper/auth"
 	"go-echo/helper/message"
 	"go-echo/model/base"
 	"go-echo/model/request"
@@ -12,7 +11,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func LoginRequest(ctx echo.Context, s service_user.UserService) (int, interface{}) {
+func (e *endpointImpl) LoginRequest(ctx echo.Context, s service_user.UserService) (int, interface{}) {
 	req := request.LoginRequest{}
 	_ = json.NewDecoder(ctx.Request().Body).Decode(&req)
 	result, msg, errMsg := s.Login(req)
@@ -30,10 +29,10 @@ func LoginRequest(ctx echo.Context, s service_user.UserService) (int, interface{
 	return code, wrap
 }
 
-func UserProfileRequest(ctx echo.Context, s service_user.UserService) (int, interface{}) {
+func (e *endpointImpl) UserProfileRequest(ctx echo.Context, s service_user.UserService) (int, interface{}) {
 	// Verify JWT token from the request headers
-	authHelper := auth.NewAuthHelper()
-	_, err := authHelper.VerifyJWT(ctx.Request().Header)
+	// authHelper := auth.NewAuthHelper()
+	_, err := e.authHelper.VerifyJWT(ctx.Request().Header)
 	if err != nil {
 		wrap := base.SetHttpResponse(message.ErrNoAuth.Code, message.ErrNoAuth.Message, nil, nil, map[string]string{"token": err.Error()})
 		return http.StatusUnauthorized, wrap
