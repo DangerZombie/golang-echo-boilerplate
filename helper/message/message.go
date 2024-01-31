@@ -16,6 +16,7 @@ var ErrDB = Message{Code: 34005, Message: "Error has been occured while processi
 var ErrNoData = Message{Code: 34005, Message: "Data is not found"}
 var ErrSaveData = Message{Code: 34005, Message: "Data cannot be saved, please check your request"}
 var ErrReq = Message{Code: 34005, Message: "Required field"}
+var ErrForbiddenAccess = Message{Code: 34009, Message: "Invalid User Role"}
 
 // Code 39000 - 39999 Server error
 var ErrRevocerRoute = Message{Code: 39000, Message: "Terjadi kesalahan routing"}

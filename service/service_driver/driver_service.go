@@ -31,7 +31,7 @@ import (
 //               $ref: '#/definitions/InsertDriverResponse'
 //           type: object
 
-func (s *driverServiceImpl) InsertDriver(req request.InsertDriverRequest) (*response.InsertDriverResponse, message.Message, interface{}) {
+func (s *driverServiceImpl) InsertDriver(req request.InsertDriverRequest) (*response.InsertDriverResponse, message.Message, map[string]string) {
 	logger := s.logger.With(zap.String("DriverService", "InsertDriver"))
 	errMsg := map[string]string{}
 
@@ -68,7 +68,7 @@ func (s *driverServiceImpl) InsertDriver(req request.InsertDriverRequest) (*resp
 	return &resp, message.SuccessMsg, nil
 }
 
-func (s *driverServiceImpl) GetListDrivers(req request.GetListDriversRequest) ([]response.InsertDriverResponse, *base.Pagination, message.Message, interface{}) {
+func (s *driverServiceImpl) GetListDrivers(req request.GetListDriversRequest) ([]response.InsertDriverResponse, *base.Pagination, message.Message, map[string]string) {
 	logger := s.logger.With(zap.String("DriverService", "GetListDrivers"))
 	errMsg := map[string]string{}
 
@@ -112,7 +112,7 @@ func (s *driverServiceImpl) GetListDrivers(req request.GetListDriversRequest) ([
 	return result, pagiantion, message.SuccessMsg, nil
 }
 
-func (s *driverServiceImpl) GetDriverByNumber(req request.GetDriverByNumber) (*response.GetDriverByNumberResponse, message.Message, interface{}) {
+func (s *driverServiceImpl) GetDriverByNumber(req request.GetDriverByNumber) (*response.GetDriverByNumberResponse, message.Message, map[string]string) {
 	logger := s.logger.With(zap.String("DriverService", "GetDriverByNumber"))
 	errMsg := map[string]string{}
 
@@ -144,7 +144,7 @@ func (s *driverServiceImpl) GetDriverByNumber(req request.GetDriverByNumber) (*r
 	return &result, message.SuccessMsg, nil
 }
 
-func (s *driverServiceImpl) UpdateDriverByNumber(req request.UpdateDriverByNumber) (*response.UpdateDriverByNumberResponse, message.Message, interface{}) {
+func (s *driverServiceImpl) UpdateDriverByNumber(req request.UpdateDriverByNumber) (*response.UpdateDriverByNumberResponse, message.Message, map[string]string) {
 	logger := s.logger.With(zap.String("DriverService", "UpdateDriverByNumber"))
 	errMsg := map[string]string{}
 
@@ -180,7 +180,7 @@ func (s *driverServiceImpl) UpdateDriverByNumber(req request.UpdateDriverByNumbe
 	return &result, message.SuccessMsg, nil
 }
 
-func (s *driverServiceImpl) DeleteDriverByNumber(req request.DeleteDriverByNumber) (*response.DeleteDriverByNumberResponse, message.Message, interface{}) {
+func (s *driverServiceImpl) DeleteDriverByNumber(req request.DeleteDriverByNumber) (*response.DeleteDriverByNumberResponse, message.Message, map[string]string) {
 	logger := s.logger.With(zap.String("DriverService", "UpdateDriverByNumber"))
 	errMsg := map[string]string{}
 

@@ -2,6 +2,7 @@ package service_user
 
 import (
 	"go-echo/helper/message"
+	"go-echo/model/parameter"
 	"go-echo/model/request"
 	"go-echo/model/response"
 
@@ -25,34 +26,40 @@ import (
 //               $ref: '#/definitions/LoginResponse'
 //           type: object
 
-func (s *userServiceImpl) Login(req request.LoginRequest) (*response.LoginResponse, message.Message, interface{}) {
+func (s *userServiceImpl) Login(req request.LoginRequest) (res response.LoginResponse, msg message.Message, errMsg map[string]string) {
 	logger := s.logger.With(zap.String("UserService", "Login"))
-	errMsg := map[string]string{}
+	errMsg = map[string]string{}
 
 	if req.Username == "" || req.Password == "" {
 		logger.Error("log", zap.String("error", "field cannot be empty"))
 		errMsg["user"] = "field cannot be empty"
-		return nil, message.FailedMsg, errMsg
+		return res, message.FailedMsg, errMsg
 	}
 
 	tx := s.baseRepo.GetBegin()
-	user, err := s.userRepo.FindUserByUsernameAndPassword(tx, req.Username, req.Password)
+
+	findUserByUsernameAndPasswordInput := parameter.FindUserByUsernameAndPasswordInput{
+		Username: req.Username,
+		Password: req.Password,
+	}
+
+	user, err := s.userRepo.FindUserByUsernameAndPassword(tx, findUserByUsernameAndPasswordInput)
 	if err != nil {
 		logger.Error("log", zap.String("error", err.Error()))
 		errMsg["user"] = "user invalid"
-		return nil, message.FailedMsg, errMsg
+		return res, message.FailedMsg, errMsg
 	}
 
 	token, err := s.authHelper.GenerateJWT(user.Username)
 	if err != nil {
 		logger.Error("log", zap.String("error", err.Error()))
 		errMsg["user"] = "error has been occured while generating token"
-		return nil, message.FailedMsg, errMsg
+		return res, message.FailedMsg, errMsg
 	}
 
-	result := response.LoginResponse{
+	res = response.LoginResponse{
 		Token: token,
 	}
 
-	return &result, message.SuccessMsg, nil
+	return res, message.SuccessMsg, nil
 }

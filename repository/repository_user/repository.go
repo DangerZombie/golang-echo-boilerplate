@@ -1,7 +1,7 @@
 package repository_user
 
 import (
-	"go-echo/model/entity"
+	"go-echo/model/parameter"
 	"go-echo/repository"
 
 	"gorm.io/gorm"
@@ -12,7 +12,8 @@ type userRepo struct {
 }
 
 type UserRepository interface {
-	FindUserByUsernameAndPassword(db *gorm.DB, username string, password string) (*entity.User, error)
+	FindUserById(db *gorm.DB, input parameter.FindUserByIdInput) (output parameter.FindUserByIdOutput, err error)
+	FindUserByUsernameAndPassword(db *gorm.DB, input parameter.FindUserByUsernameAndPasswordInput) (output parameter.FindUserByUsernameAndPasswordOutput, err error)
 }
 
 func NewUserRepository(br repository.BaseRepository) UserRepository {

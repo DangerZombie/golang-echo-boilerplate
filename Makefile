@@ -13,8 +13,14 @@ $(GEN_GO_FILES): %.mock.gen.go: %.go
 	@echo "Generating mocks $@ for $<"
 	mockgen -source=$< -destination=$@ -package=$(shell basename $(dir $<))
 
+generate_swagger:
+	swagger generate spec -m -o ./swagger.yaml
+
+generate_test_coverage:
+	go tool cover -html=coverage.out
+
 test_unit:
-	go test -short -coverprofile coverage.out -v ./... -coverpkg=./...
+	go test -short -coverprofile=coverage.out -v ./... -coverpkg=./...
 
 test_integration:
-	go test -coverprofile coverage_integration.out -v ./... -tags=integration
+	go test -coverprofile=coverage_integration.out -v ./... -tags=integration

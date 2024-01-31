@@ -10,7 +10,7 @@
 package repository_user
 
 import (
-	entity "go-echo/model/entity"
+	parameter "go-echo/model/parameter"
 	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
@@ -40,17 +40,32 @@ func (m *MockUserRepository) EXPECT() *MockUserRepositoryMockRecorder {
 	return m.recorder
 }
 
-// FindUserByUsernameAndPassword mocks base method.
-func (m *MockUserRepository) FindUserByUsernameAndPassword(db *gorm.DB, username, password string) (*entity.User, error) {
+// FindUserById mocks base method.
+func (m *MockUserRepository) FindUserById(db *gorm.DB, input parameter.FindUserByIdInput) (parameter.FindUserByIdOutput, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindUserByUsernameAndPassword", db, username, password)
-	ret0, _ := ret[0].(*entity.User)
+	ret := m.ctrl.Call(m, "FindUserById", db, input)
+	ret0, _ := ret[0].(parameter.FindUserByIdOutput)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindUserById indicates an expected call of FindUserById.
+func (mr *MockUserRepositoryMockRecorder) FindUserById(db, input any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserById", reflect.TypeOf((*MockUserRepository)(nil).FindUserById), db, input)
+}
+
+// FindUserByUsernameAndPassword mocks base method.
+func (m *MockUserRepository) FindUserByUsernameAndPassword(db *gorm.DB, input parameter.FindUserByUsernameAndPasswordInput) (parameter.FindUserByUsernameAndPasswordOutput, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindUserByUsernameAndPassword", db, input)
+	ret0, _ := ret[0].(parameter.FindUserByUsernameAndPasswordOutput)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindUserByUsernameAndPassword indicates an expected call of FindUserByUsernameAndPassword.
-func (mr *MockUserRepositoryMockRecorder) FindUserByUsernameAndPassword(db, username, password any) *gomock.Call {
+func (mr *MockUserRepositoryMockRecorder) FindUserByUsernameAndPassword(db, input any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByUsernameAndPassword", reflect.TypeOf((*MockUserRepository)(nil).FindUserByUsernameAndPassword), db, username, password)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByUsernameAndPassword", reflect.TypeOf((*MockUserRepository)(nil).FindUserByUsernameAndPassword), db, input)
 }
