@@ -21,7 +21,7 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        go install -u go.uber.org/mock/mockgen@latest
+        go install go.uber.org/mock/mockgen@latest
         go mod tidy
 
     - name: Generate Mocks
