@@ -19,7 +19,8 @@ type userServiceImpl struct {
 }
 
 type UserService interface {
-	Login(req request.LoginRequest) (*response.LoginResponse, message.Message, interface{})
+	Login(req request.LoginRequest) (res response.LoginResponse, msg message.Message, errMsg map[string]string)
+	UserProfile(req request.UserProfileRequest) (res response.UserProfileResponse, msg message.Message, errMsg map[string]string)
 }
 
 func NewUserService(

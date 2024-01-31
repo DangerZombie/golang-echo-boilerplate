@@ -43,12 +43,12 @@ func (m *MockDriverService) EXPECT() *MockDriverServiceMockRecorder {
 }
 
 // DeleteDriverByNumber mocks base method.
-func (m *MockDriverService) DeleteDriverByNumber(req request.DeleteDriverByNumber) (*response.DeleteDriverByNumberResponse, message.Message, any) {
+func (m *MockDriverService) DeleteDriverByNumber(req request.DeleteDriverByNumber) (*response.DeleteDriverByNumberResponse, message.Message, map[string]string) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteDriverByNumber", req)
 	ret0, _ := ret[0].(*response.DeleteDriverByNumberResponse)
 	ret1, _ := ret[1].(message.Message)
-	ret2, _ := ret[2].(any)
+	ret2, _ := ret[2].(map[string]string)
 	return ret0, ret1, ret2
 }
 
@@ -59,12 +59,12 @@ func (mr *MockDriverServiceMockRecorder) DeleteDriverByNumber(req any) *gomock.C
 }
 
 // GetDriverByNumber mocks base method.
-func (m *MockDriverService) GetDriverByNumber(req request.GetDriverByNumber) (*response.GetDriverByNumberResponse, message.Message, any) {
+func (m *MockDriverService) GetDriverByNumber(req request.GetDriverByNumber) (*response.GetDriverByNumberResponse, message.Message, map[string]string) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetDriverByNumber", req)
 	ret0, _ := ret[0].(*response.GetDriverByNumberResponse)
 	ret1, _ := ret[1].(message.Message)
-	ret2, _ := ret[2].(any)
+	ret2, _ := ret[2].(map[string]string)
 	return ret0, ret1, ret2
 }
 
@@ -75,13 +75,13 @@ func (mr *MockDriverServiceMockRecorder) GetDriverByNumber(req any) *gomock.Call
 }
 
 // GetListDrivers mocks base method.
-func (m *MockDriverService) GetListDrivers(req request.GetListDriversRequest) ([]response.InsertDriverResponse, *base.Pagination, message.Message, any) {
+func (m *MockDriverService) GetListDrivers(req request.GetListDriversRequest) ([]response.InsertDriverResponse, *base.Pagination, message.Message, map[string]string) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetListDrivers", req)
 	ret0, _ := ret[0].([]response.InsertDriverResponse)
 	ret1, _ := ret[1].(*base.Pagination)
 	ret2, _ := ret[2].(message.Message)
-	ret3, _ := ret[3].(any)
+	ret3, _ := ret[3].(map[string]string)
 	return ret0, ret1, ret2, ret3
 }
 
@@ -92,12 +92,12 @@ func (mr *MockDriverServiceMockRecorder) GetListDrivers(req any) *gomock.Call {
 }
 
 // InsertDriver mocks base method.
-func (m *MockDriverService) InsertDriver(req request.InsertDriverRequest) (*response.InsertDriverResponse, message.Message, any) {
+func (m *MockDriverService) InsertDriver(req request.InsertDriverRequest) (*response.InsertDriverResponse, message.Message, map[string]string) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "InsertDriver", req)
 	ret0, _ := ret[0].(*response.InsertDriverResponse)
 	ret1, _ := ret[1].(message.Message)
-	ret2, _ := ret[2].(any)
+	ret2, _ := ret[2].(map[string]string)
 	return ret0, ret1, ret2
 }
 
@@ -108,12 +108,12 @@ func (mr *MockDriverServiceMockRecorder) InsertDriver(req any) *gomock.Call {
 }
 
 // UpdateDriverByNumber mocks base method.
-func (m *MockDriverService) UpdateDriverByNumber(req request.UpdateDriverByNumber) (*response.UpdateDriverByNumberResponse, message.Message, any) {
+func (m *MockDriverService) UpdateDriverByNumber(req request.UpdateDriverByNumber) (*response.UpdateDriverByNumberResponse, message.Message, map[string]string) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateDriverByNumber", req)
 	ret0, _ := ret[0].(*response.UpdateDriverByNumberResponse)
 	ret1, _ := ret[1].(message.Message)
-	ret2, _ := ret[2].(any)
+	ret2, _ := ret[2].(map[string]string)
 	return ret0, ret1, ret2
 }
 

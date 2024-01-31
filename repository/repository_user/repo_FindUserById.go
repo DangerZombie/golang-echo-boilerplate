@@ -8,10 +8,10 @@ import (
 	"gorm.io/gorm"
 )
 
-func (r *userRepo) FindUserByUsernameAndPassword(db *gorm.DB, input parameter.FindUserByUsernameAndPasswordInput) (output parameter.FindUserByUsernameAndPasswordOutput, err error) {
+func (r *userRepo) FindUserById(db *gorm.DB, input parameter.FindUserByIdInput) (output parameter.FindUserByIdOutput, err error) {
 	err = db.
 		Model(&entity.User{}).
-		Where("username = ? AND password = ?", input.Username, input.Password).
+		Where("id = ?", input.Id).
 		First(&output).
 		Error
 

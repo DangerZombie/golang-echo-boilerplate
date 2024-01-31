@@ -18,11 +18,11 @@ type driverServiceImpl struct {
 }
 
 type DriverService interface {
-	InsertDriver(req request.InsertDriverRequest) (*response.InsertDriverResponse, message.Message, interface{})
-	GetListDrivers(req request.GetListDriversRequest) ([]response.InsertDriverResponse, *base.Pagination, message.Message, interface{})
-	GetDriverByNumber(req request.GetDriverByNumber) (*response.GetDriverByNumberResponse, message.Message, interface{})
-	UpdateDriverByNumber(req request.UpdateDriverByNumber) (*response.UpdateDriverByNumberResponse, message.Message, interface{})
-	DeleteDriverByNumber(req request.DeleteDriverByNumber) (*response.DeleteDriverByNumberResponse, message.Message, interface{})
+	InsertDriver(req request.InsertDriverRequest) (*response.InsertDriverResponse, message.Message, map[string]string)
+	GetListDrivers(req request.GetListDriversRequest) ([]response.InsertDriverResponse, *base.Pagination, message.Message, map[string]string)
+	GetDriverByNumber(req request.GetDriverByNumber) (*response.GetDriverByNumberResponse, message.Message, map[string]string)
+	UpdateDriverByNumber(req request.UpdateDriverByNumber) (*response.UpdateDriverByNumberResponse, message.Message, map[string]string)
+	DeleteDriverByNumber(req request.DeleteDriverByNumber) (*response.DeleteDriverByNumberResponse, message.Message, map[string]string)
 }
 
 func NewDriverService(

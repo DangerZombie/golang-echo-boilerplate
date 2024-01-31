@@ -14,7 +14,7 @@ type responseHttp struct {
 	Data data `json:"data"`
 	// Errors is the response message
 	// in: string
-	Errors interface{} `json:"errors,omitempty"`
+	Errors map[string]string `json:"errors,omitempty"`
 }
 
 // swagger:model MetaResponse
@@ -36,7 +36,7 @@ type data struct {
 	Record  interface{} `json:"record,omitempty"`
 }
 
-func SetHttpResponse(code int, message string, result interface{}, paging *Pagination, errMsg interface{}) interface{} {
+func SetHttpResponse(code int, message string, result interface{}, paging *Pagination, errMsg map[string]string) interface{} {
 	dt := data{}
 
 	isSlice := false
@@ -72,5 +72,6 @@ func GetHttpResponse(resp interface{}) *responseHttp {
 	if ok {
 		return &result
 	}
+
 	return nil
 }

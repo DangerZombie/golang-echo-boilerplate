@@ -42,12 +42,12 @@ func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
 }
 
 // Login mocks base method.
-func (m *MockUserService) Login(req request.LoginRequest) (*response.LoginResponse, message.Message, any) {
+func (m *MockUserService) Login(req request.LoginRequest) (response.LoginResponse, message.Message, map[string]string) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Login", req)
-	ret0, _ := ret[0].(*response.LoginResponse)
+	ret0, _ := ret[0].(response.LoginResponse)
 	ret1, _ := ret[1].(message.Message)
-	ret2, _ := ret[2].(any)
+	ret2, _ := ret[2].(map[string]string)
 	return ret0, ret1, ret2
 }
 
@@ -55,4 +55,20 @@ func (m *MockUserService) Login(req request.LoginRequest) (*response.LoginRespon
 func (mr *MockUserServiceMockRecorder) Login(req any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockUserService)(nil).Login), req)
+}
+
+// UserProfile mocks base method.
+func (m *MockUserService) UserProfile(req request.UserProfileRequest) (response.UserProfileResponse, message.Message, map[string]string) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UserProfile", req)
+	ret0, _ := ret[0].(response.UserProfileResponse)
+	ret1, _ := ret[1].(message.Message)
+	ret2, _ := ret[2].(map[string]string)
+	return ret0, ret1, ret2
+}
+
+// UserProfile indicates an expected call of UserProfile.
+func (mr *MockUserServiceMockRecorder) UserProfile(req any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserProfile", reflect.TypeOf((*MockUserService)(nil).UserProfile), req)
 }

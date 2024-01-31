@@ -1,9 +1,10 @@
 package service_user_test
 
 import (
+	"errors"
 	"go-echo/helper/auth"
 	"go-echo/initialization"
-	"go-echo/model/entity"
+	"go-echo/model/parameter"
 	"go-echo/model/request"
 	"go-echo/repository"
 	"go-echo/repository/repository_user"
@@ -14,7 +15,6 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 	"go.uber.org/zap"
-	"gorm.io/gorm"
 )
 
 func TestLogin(t *testing.T) {
@@ -40,23 +40,32 @@ func TestLogin(t *testing.T) {
 		Password: password,
 	}
 
-	findUserByUsernameAndPasswordOutput := entity.User{
+	loginEmptyRequest := request.LoginRequest{
+		Username: "",
+		Password: "",
+	}
+
+	findUserByUsernameAndPasswordInput := parameter.FindUserByUsernameAndPasswordInput{
+		Username: username,
+		Password: password,
+	}
+
+	findUserByUsernameAndPasswordOutput := parameter.FindUserByUsernameAndPasswordOutput{
 		Id:       faker.UUIDHyphenated(),
 		Username: username,
 		Password: password,
 	}
 
 	t.Run("Should return token", func(t *testing.T) {
-		var tx *gorm.DB
-		mockUserRepository.EXPECT().
-			FindUserByUsernameAndPassword(gomock.Any(), username, password).
-			Times(1).
-			Return(&findUserByUsernameAndPasswordOutput, nil)
-
 		mockBaseRepository.EXPECT().
 			GetBegin().
 			Times(1).
-			Return(tx)
+			Return(nil)
+
+		mockUserRepository.EXPECT().
+			FindUserByUsernameAndPassword(gomock.Any(), findUserByUsernameAndPasswordInput).
+			Times(1).
+			Return(findUserByUsernameAndPasswordOutput, nil)
 
 		mockAuthHelper.EXPECT().
 			GenerateJWT(username).
@@ -68,5 +77,54 @@ func TestLogin(t *testing.T) {
 		require.Equal(t, token, result.Token)
 		require.NotEmpty(t, message)
 		require.Empty(t, err)
+	})
+
+	t.Run("Should return error if username or password empty", func(t *testing.T) {
+		result, message, err := userService.Login(loginEmptyRequest)
+
+		require.Empty(t, result)
+		require.NotEmpty(t, message)
+		require.NotEmpty(t, err)
+	})
+
+	t.Run("Should return error if failed to get user", func(t *testing.T) {
+		mockBaseRepository.EXPECT().
+			GetBegin().
+			Times(1).
+			Return(nil)
+
+		mockUserRepository.EXPECT().
+			FindUserByUsernameAndPassword(gomock.Any(), findUserByUsernameAndPasswordInput).
+			Times(1).
+			Return(parameter.FindUserByUsernameAndPasswordOutput{}, errors.New("failed"))
+
+		result, message, err := userService.Login(loginRequest)
+
+		require.Empty(t, result)
+		require.NotEmpty(t, message)
+		require.NotEmpty(t, err)
+	})
+
+	t.Run("Should return error if failed to generate token", func(t *testing.T) {
+		mockBaseRepository.EXPECT().
+			GetBegin().
+			Times(1).
+			Return(nil)
+
+		mockUserRepository.EXPECT().
+			FindUserByUsernameAndPassword(gomock.Any(), findUserByUsernameAndPasswordInput).
+			Times(1).
+			Return(findUserByUsernameAndPasswordOutput, nil)
+
+		mockAuthHelper.EXPECT().
+			GenerateJWT(username).
+			Times(1).
+			Return("", errors.New("failed"))
+
+		result, message, err := userService.Login(loginRequest)
+
+		require.Empty(t, result)
+		require.NotEmpty(t, message)
+		require.NotEmpty(t, err)
 	})
 }

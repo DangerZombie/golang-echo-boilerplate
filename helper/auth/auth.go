@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -22,6 +23,7 @@ func NewAuthHelper() AuthHelper {
 	return &authHelperImpl{}
 }
 
+// TODO: need to fix generating JWT with valid step
 func (h *authHelperImpl) GenerateJWT(username string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 
@@ -39,7 +41,12 @@ func (h *authHelperImpl) GenerateJWT(username string) (string, error) {
 	return tokenString, nil
 }
 
+// TODO: need to fix verifying JWT
 func (h *authHelperImpl) VerifyJWT(headers http.Header) (string, error) {
+	if headers.Get("Authorization") == "" {
+		return "", errors.New("token is null, need valid token")
+	}
+
 	tokenString := strings.Split(headers["Authorization"][0], " ")[1]
 
 	// Parse the JWT token
@@ -53,15 +60,16 @@ func (h *authHelperImpl) VerifyJWT(headers http.Header) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
 	if !token.Valid {
-		err = fmt.Errorf("error: %s", "token invalid")
+		err = fmt.Errorf("errors: %s", "token invalid")
 		return "", err
 	}
 
 	// Access the claims
 	_, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
-		err = fmt.Errorf("error: %s", "token invalid")
+		err = fmt.Errorf("errors: %s", "token invalid")
 		return "", err
 	}
 
