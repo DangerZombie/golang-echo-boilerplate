@@ -21,8 +21,20 @@ jobs:
       with:
         go-version: '1.20'
 
-    - name: Build
-      run: go build -v ./...
+    - name: Install Dependecies
+      run: go mod tidy
+
+    - name: Generate Mocks
+      run: |
+        GO_FILES=$(find ./ -name "interface.go")
+        GEN_GO_FILES=$(echo "$GO_FILES" | sed 's/\.go/.mock.gen.go/g')
+        for file in $GO_FILES; do
+          echo "Generating mocks ${file%.go}.mock.gen.go for $file"
+          mockgen -source=$file -destination=${file%.go}.mock.gen.go -package=$(basename $(dirname $file))
+        done
 
     - name: Test
       run: go test -short -coverprofile=coverage.out -v ./... -coverpkg=./...
+
+    - name: Build
+      run: go build -v ./...
