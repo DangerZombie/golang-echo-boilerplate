@@ -17,3 +17,11 @@ type FindUserByIdOutput struct {
 	Id       string
 	Nickname string
 }
+
+type CreateUserInput struct {
+	entity.User
+}
+
+type CreateUserOutput struct {
+	Id string
+}

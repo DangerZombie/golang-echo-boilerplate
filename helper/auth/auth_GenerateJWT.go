@@ -12,7 +12,7 @@ func (h *authHelperImpl) GenerateJWT(username string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(1 * time.Minute).Unix()
+	claims["exp"] = time.Now().Add(24 * time.Hour).Unix()
 	claims["authorized"] = true
 	claims["user"] = username
 

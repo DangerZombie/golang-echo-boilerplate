@@ -9,5 +9,6 @@ import (
 type Endpoint interface {
 	// Endpoint User
 	LoginRequest(ctx echo.Context, s service_user.UserService) (int, interface{})
+	RegisterUserRequest(ctx echo.Context, s service_user.UserService) (int, interface{})
 	UserProfileRequest(ctx echo.Context, s service_user.UserService) (int, interface{})
 }
