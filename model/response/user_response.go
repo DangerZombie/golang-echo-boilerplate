@@ -20,3 +20,11 @@ type UserProfileResponse struct {
 	// example: John Doe
 	Nickname string `json:"Nickname"`
 }
+
+// swagger:model RegisterUserResponse
+type RegisterUserResponse struct {
+	// Id of user
+	// in: string
+	// example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+	Id string `json:"id"`
+}

@@ -40,19 +40,9 @@ func TestEndpointUser_Login(t *testing.T) {
 		Token: faker.Jwt(),
 	}
 
-	successMessage := message.Message{
-		Code:    message.SuccessMsg.Code,
-		Message: message.SuccessMsg.Message,
-	}
-
-	badRequestMessage := message.Message{
-		Code:    message.ErrReqParam.Code,
-		Message: message.ErrReqParam.Message,
-	}
-
 	t.Run("Should return OK", func(t *testing.T) {
 		reqBody, _ := json.Marshal(loginRequest)
-		req := httptest.NewRequest(http.MethodGet, "/api/user/login", strings.NewReader(string(reqBody)))
+		req := httptest.NewRequest(http.MethodPost, "/api/user/login", strings.NewReader(string(reqBody)))
 		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
@@ -60,7 +50,7 @@ func TestEndpointUser_Login(t *testing.T) {
 		mockUserService.EXPECT().
 			Login(loginRequest).
 			Times(1).
-			Return(loginResponse, successMessage, nil)
+			Return(loginResponse, message.SuccessMsg, nil)
 
 		statusCode, result := endpointModule.LoginRequest(c, mockUserService)
 
@@ -70,7 +60,7 @@ func TestEndpointUser_Login(t *testing.T) {
 
 	t.Run("Should return Bad Request if something went wrong", func(t *testing.T) {
 		reqBody, _ := json.Marshal(loginRequest)
-		req := httptest.NewRequest(http.MethodGet, "/api/user/login", strings.NewReader(string(reqBody)))
+		req := httptest.NewRequest(http.MethodPost, "/api/user/login", strings.NewReader(string(reqBody)))
 		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
@@ -78,7 +68,7 @@ func TestEndpointUser_Login(t *testing.T) {
 		mockUserService.EXPECT().
 			Login(loginRequest).
 			Times(1).
-			Return(response.LoginResponse{}, badRequestMessage, nil)
+			Return(response.LoginResponse{}, message.ErrReqParam, nil)
 
 		statusCode, result := endpointModule.LoginRequest(c, mockUserService)
 
@@ -108,16 +98,6 @@ func TestEndpointUser_UserProfile(t *testing.T) {
 		Nickname: faker.Name(),
 	}
 
-	successMessage := message.Message{
-		Code:    message.SuccessMsg.Code,
-		Message: message.SuccessMsg.Message,
-	}
-
-	badRequestMessage := message.Message{
-		Code:    message.ErrReqParam.Code,
-		Message: message.ErrReqParam.Message,
-	}
-
 	t.Run("Should return OK", func(t *testing.T) {
 		url := fmt.Sprintf("/api/user/profile?id=%s", id)
 		req := httptest.NewRequest(http.MethodGet, url, nil)
@@ -134,7 +114,7 @@ func TestEndpointUser_UserProfile(t *testing.T) {
 		mockUserService.EXPECT().
 			UserProfile(userProfileInput).
 			Times(1).
-			Return(userProfileOutput, successMessage, nil)
+			Return(userProfileOutput, message.SuccessMsg, nil)
 
 		statusCode, result := endpointModule.UserProfileRequest(c, mockUserService)
 
@@ -177,9 +157,101 @@ func TestEndpointUser_UserProfile(t *testing.T) {
 		mockUserService.EXPECT().
 			UserProfile(userProfileInput).
 			Times(1).
-			Return(response.UserProfileResponse{}, badRequestMessage, nil)
+			Return(response.UserProfileResponse{}, message.ErrReqParam, nil)
 
 		statusCode, result := endpointModule.UserProfileRequest(c, mockUserService)
+
+		require.Equal(t, http.StatusBadRequest, statusCode)
+		require.NotEmpty(t, result)
+	})
+}
+
+func TestEndpointUser_RegisterUser(t *testing.T) {
+	mockCtrl := gomock.NewController(t)
+	mockUserService := service_user.NewMockUserService(mockCtrl)
+	mockAuthHelper := auth.NewMockAuthHelper(mockCtrl)
+
+	endpointModule := endpoint.NewEndpoint(
+		mockAuthHelper,
+	)
+
+	e := echo.New()
+	id := faker.UUIDHyphenated()
+	username := faker.Username()
+	password := faker.Password()
+	nickname := faker.Name()
+	registerUserInput := request.RegisterUserRequest{
+		Username: username,
+		Password: password,
+		Nickname: nickname,
+	}
+
+	registerUserOutput := response.RegisterUserResponse{
+		Id: id,
+	}
+
+	t.Run("Should return OK", func(t *testing.T) {
+		reqBody, _ := json.Marshal(registerUserInput)
+		req := httptest.NewRequest(http.MethodPost, "/api/user/register", strings.NewReader(string(reqBody)))
+		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
+		req.Header.Set(echo.HeaderAuthorization, faker.JWT)
+		rec := httptest.NewRecorder()
+		c := e.NewContext(req, rec)
+
+		mockAuthHelper.EXPECT().
+			VerifyJWT(c.Request().Header).
+			Times(1).
+			Return("", nil)
+
+		mockUserService.EXPECT().
+			RegisterUser(registerUserInput).
+			Times(1).
+			Return(registerUserOutput, message.SuccessMsg, nil)
+
+		statusCode, result := endpointModule.RegisterUserRequest(c, mockUserService)
+
+		require.Equal(t, http.StatusOK, statusCode)
+		require.NotEmpty(t, result)
+	})
+
+	t.Run("Should return Unauthorized", func(t *testing.T) {
+		reqBody, _ := json.Marshal(registerUserInput)
+		req := httptest.NewRequest(http.MethodPost, "/api/user/register", strings.NewReader(string(reqBody)))
+		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
+		req.Header.Set(echo.HeaderAuthorization, faker.JWT)
+		rec := httptest.NewRecorder()
+		c := e.NewContext(req, rec)
+
+		mockAuthHelper.EXPECT().
+			VerifyJWT(c.Request().Header).
+			Times(1).
+			Return("", errors.New("failed"))
+
+		statusCode, result := endpointModule.RegisterUserRequest(c, mockUserService)
+
+		require.Equal(t, http.StatusUnauthorized, statusCode)
+		require.NotEmpty(t, result)
+	})
+
+	t.Run("Should return Bad Request", func(t *testing.T) {
+		reqBody, _ := json.Marshal(registerUserInput)
+		req := httptest.NewRequest(http.MethodPost, "/api/user/register", strings.NewReader(string(reqBody)))
+		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
+		req.Header.Set(echo.HeaderAuthorization, faker.JWT)
+		rec := httptest.NewRecorder()
+		c := e.NewContext(req, rec)
+
+		mockAuthHelper.EXPECT().
+			VerifyJWT(c.Request().Header).
+			Times(1).
+			Return("", nil)
+
+		mockUserService.EXPECT().
+			RegisterUser(registerUserInput).
+			Times(1).
+			Return(response.RegisterUserResponse{}, message.ErrReqParam, nil)
+
+		statusCode, result := endpointModule.RegisterUserRequest(c, mockUserService)
 
 		require.Equal(t, http.StatusBadRequest, statusCode)
 		require.NotEmpty(t, result)
