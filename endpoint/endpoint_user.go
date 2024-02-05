@@ -3,11 +3,13 @@ package endpoint
 import (
 	"encoding/json"
 	"go-echo/helper/message"
+	"go-echo/helper/static"
 	"go-echo/model/base"
 	"go-echo/model/request"
 	"go-echo/service/service_user"
 	"net/http"
 
+	"github.com/go-faker/faker/v4/pkg/slice"
 	"github.com/labstack/echo"
 )
 
@@ -58,10 +60,16 @@ func (e *endpointImpl) UserProfileRequest(ctx echo.Context, s service_user.UserS
 
 func (e *endpointImpl) RegisterUserRequest(ctx echo.Context, s service_user.UserService) (int, interface{}) {
 	// Verify JWT token from the request headers
-	_, err := e.authHelper.VerifyJWT(ctx.Request().Header)
+	claims, err := e.authHelper.VerifyJWT(ctx.Request().Header)
 	if err != nil {
 		wrap := base.SetHttpResponse(message.ErrNoAuth.Code, message.ErrNoAuth.Message, nil, nil, map[string]string{"token": err.Error()})
 		return http.StatusUnauthorized, wrap
+	}
+
+	// Validate allowed roles
+	if !slice.Contains(claims.Roles, static.RoleADMINISTRATOR) {
+		wrap := base.SetHttpResponse(message.ErrForbiddenAccess.Code, message.ErrForbiddenAccess.Message, nil, nil, map[string]string{"role": "you not have correct role"})
+		return http.StatusForbidden, wrap
 	}
 
 	req := request.RegisterUserRequestBody{}

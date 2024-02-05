@@ -7,6 +7,8 @@ import (
 	"go-echo/endpoint"
 	"go-echo/helper/auth"
 	"go-echo/helper/message"
+	"go-echo/helper/static"
+	"go-echo/model/parameter"
 	"go-echo/model/request"
 	"go-echo/model/response"
 	"go-echo/service/service_user"
@@ -109,7 +111,7 @@ func TestEndpointUser_UserProfile(t *testing.T) {
 		mockAuthHelper.EXPECT().
 			VerifyJWT(c.Request().Header).
 			Times(1).
-			Return("", nil)
+			Return(parameter.JwtClaims{}, nil)
 
 		mockUserService.EXPECT().
 			UserProfile(userProfileInput).
@@ -133,7 +135,7 @@ func TestEndpointUser_UserProfile(t *testing.T) {
 		mockAuthHelper.EXPECT().
 			VerifyJWT(c.Request().Header).
 			Times(1).
-			Return("", errors.New("failed"))
+			Return(parameter.JwtClaims{}, errors.New("failed"))
 
 		statusCode, result := endpointModule.UserProfileRequest(c, mockUserService)
 
@@ -152,7 +154,7 @@ func TestEndpointUser_UserProfile(t *testing.T) {
 		mockAuthHelper.EXPECT().
 			VerifyJWT(c.Request().Header).
 			Times(1).
-			Return("", nil)
+			Return(parameter.JwtClaims{}, nil)
 
 		mockUserService.EXPECT().
 			UserProfile(userProfileInput).
@@ -180,6 +182,21 @@ func TestEndpointUser_RegisterUser(t *testing.T) {
 	username := faker.Username()
 	password := faker.Password()
 	nickname := faker.Name()
+
+	claims := parameter.JwtClaims{
+		Issuer:  faker.UUIDHyphenated(),
+		Subject: username,
+		User:    nickname,
+		Roles:   []string{static.RoleADMINISTRATOR},
+	}
+
+	claimsWrongRole := parameter.JwtClaims{
+		Issuer:  faker.UUIDHyphenated(),
+		Subject: username,
+		User:    nickname,
+		Roles:   []string{faker.Username()},
+	}
+
 	registerUserInput := request.RegisterUserRequestBody{
 		Username: username,
 		Password: password,
@@ -201,7 +218,7 @@ func TestEndpointUser_RegisterUser(t *testing.T) {
 		mockAuthHelper.EXPECT().
 			VerifyJWT(c.Request().Header).
 			Times(1).
-			Return("", nil)
+			Return(claims, nil)
 
 		mockUserService.EXPECT().
 			RegisterUser(registerUserInput).
@@ -225,11 +242,30 @@ func TestEndpointUser_RegisterUser(t *testing.T) {
 		mockAuthHelper.EXPECT().
 			VerifyJWT(c.Request().Header).
 			Times(1).
-			Return("", errors.New("failed"))
+			Return(parameter.JwtClaims{}, errors.New("failed"))
 
 		statusCode, result := endpointModule.RegisterUserRequest(c, mockUserService)
 
 		require.Equal(t, http.StatusUnauthorized, statusCode)
+		require.NotEmpty(t, result)
+	})
+
+	t.Run("Should return Forbidden", func(t *testing.T) {
+		reqBody, _ := json.Marshal(registerUserInput)
+		req := httptest.NewRequest(http.MethodPost, "/api/v1/user/register", strings.NewReader(string(reqBody)))
+		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
+		req.Header.Set(echo.HeaderAuthorization, faker.JWT)
+		rec := httptest.NewRecorder()
+		c := e.NewContext(req, rec)
+
+		mockAuthHelper.EXPECT().
+			VerifyJWT(c.Request().Header).
+			Times(1).
+			Return(claimsWrongRole, nil)
+
+		statusCode, result := endpointModule.RegisterUserRequest(c, mockUserService)
+
+		require.Equal(t, http.StatusForbidden, statusCode)
 		require.NotEmpty(t, result)
 	})
 
@@ -244,7 +280,7 @@ func TestEndpointUser_RegisterUser(t *testing.T) {
 		mockAuthHelper.EXPECT().
 			VerifyJWT(c.Request().Header).
 			Times(1).
-			Return("", nil)
+			Return(claims, nil)
 
 		mockUserService.EXPECT().
 			RegisterUser(registerUserInput).

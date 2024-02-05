@@ -50,7 +50,7 @@ func (s *userServiceImpl) Login(req request.LoginRequestBody) (res response.Logi
 		return res, message.FailedMsg, errMsg
 	}
 
-	token, err := s.authHelper.GenerateJWT(user.Username)
+	token, err := s.authHelper.GenerateJWT(user.Id)
 	if err != nil {
 		logger.Error("log", zap.String("error", err.Error()))
 		errMsg["user"] = "error has been occured while generating token"
