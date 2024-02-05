@@ -12,7 +12,7 @@ import (
 )
 
 func (e *endpointImpl) LoginRequest(ctx echo.Context, s service_user.UserService) (int, interface{}) {
-	req := request.LoginRequest{}
+	req := request.LoginRequestBody{}
 	_ = json.NewDecoder(ctx.Request().Body).Decode(&req)
 	result, msg, errMsg := s.Login(req)
 
@@ -64,16 +64,9 @@ func (e *endpointImpl) RegisterUserRequest(ctx echo.Context, s service_user.User
 		return http.StatusUnauthorized, wrap
 	}
 
-	req := request.RegisterUserRequest{}
+	req := request.RegisterUserRequestBody{}
 	_ = json.NewDecoder(ctx.Request().Body).Decode(&req)
-
-	registerUserInput := request.RegisterUserRequest{
-		Username: req.Username,
-		Password: req.Password,
-		Nickname: req.Nickname,
-	}
-
-	result, msg, errMsg := s.RegisterUser(registerUserInput)
+	result, msg, errMsg := s.RegisterUser(req)
 
 	var wrap interface{}
 	var code int

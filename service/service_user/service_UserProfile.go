@@ -9,6 +9,25 @@ import (
 	"go.uber.org/zap"
 )
 
+// swagger:operation GET /user/profile User UserProfileRequest
+// User profile
+//
+// ---
+// security:
+// - Bearer: []
+// responses:
+//   '200':
+//     description: Success Response.
+//     schema:
+//       properties:
+//         meta:
+//           $ref: '#/definitions/MetaSingleSuccessResponse'
+//         data:
+//           properties:
+//             record:
+//               $ref: '#/definitions/UserProfileResponse'
+//           type: object
+
 func (s *userServiceImpl) UserProfile(req request.UserProfileRequest) (res response.UserProfileResponse, msg message.Message, errMsg map[string]string) {
 	logger := s.logger.With(zap.String("UserService", "Login"))
 	errMsg = map[string]string{}

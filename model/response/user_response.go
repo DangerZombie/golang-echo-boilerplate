@@ -13,12 +13,12 @@ type UserProfileResponse struct {
 	// Id of user
 	// in: string
 	// example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
-	Id string `json:"id"`
+	Id string `json:"id,omitempty"`
 
 	// Nickname of user
 	// in: string
 	// example: John Doe
-	Nickname string `json:"Nickname"`
+	Nickname string `json:"Nickname,omitempty"`
 }
 
 // swagger:model RegisterUserResponse

@@ -36,7 +36,7 @@ func TestRegisterUser(t *testing.T) {
 	username := faker.Username()
 	password := faker.Password()
 	nickname := faker.Name()
-	registerUserRequest := request.RegisterUserRequest{
+	registerUserRequest := request.RegisterUserRequestBody{
 		Username: username,
 		Password: password,
 		Nickname: nickname,
@@ -44,10 +44,11 @@ func TestRegisterUser(t *testing.T) {
 
 	createUserInput := parameter.CreateUserInput{
 		User: entity.User{
-			Username: registerUserRequest.Username,
-			Password: registerUserRequest.Password,
-			Nickname: registerUserRequest.Nickname,
-			Status:   "ACTIVE",
+			Username:  registerUserRequest.Username,
+			Password:  registerUserRequest.Password,
+			Nickname:  registerUserRequest.Nickname,
+			Status:    "ACTIVE",
+			CreatedBy: "system",
 		},
 	}
 

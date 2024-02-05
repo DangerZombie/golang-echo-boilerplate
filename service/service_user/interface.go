@@ -7,7 +7,7 @@ import (
 )
 
 type UserService interface {
-	Login(req request.LoginRequest) (res response.LoginResponse, msg message.Message, errMsg map[string]string)
-	RegisterUser(req request.RegisterUserRequest) (res response.RegisterUserResponse, msg message.Message, errMsg map[string]string)
+	Login(req request.LoginRequestBody) (res response.LoginResponse, msg message.Message, errMsg map[string]string)
+	RegisterUser(req request.RegisterUserRequestBody) (res response.RegisterUserResponse, msg message.Message, errMsg map[string]string)
 	UserProfile(req request.UserProfileRequest) (res response.UserProfileResponse, msg message.Message, errMsg map[string]string)
 }
