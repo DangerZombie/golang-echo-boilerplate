@@ -1,4 +1,4 @@
-basePath: /development/api/v1
+basePath: /api/v1
 consumes:
     - application/json
 definitions:
@@ -71,6 +71,27 @@ definitions:
                 x-go-name: UpdatedBy
         type: object
         x-go-package: go-echo/model/response
+    LoginRequestBody:
+        properties:
+            password:
+                description: |-
+                    Password of user
+                    in: string
+                example: "123456"
+                type: string
+                x-go-name: Password
+            username:
+                description: |-
+                    Username of user
+                    in: string
+                example: admin
+                type: string
+                x-go-name: Username
+        required:
+            - username
+            - password
+        type: object
+        x-go-package: go-echo/model/request
     LoginResponse:
         properties:
             token:
@@ -146,20 +167,80 @@ definitions:
         type: object
         x-go-name: Pagination
         x-go-package: go-echo/model/base
+    RegisterUserRequestBody:
+        properties:
+            nickname:
+                description: |-
+                    Nickname of user will show as profile name
+                    in: string
+                example: Administrator
+                type: string
+                x-go-name: Nickname
+            password:
+                description: |-
+                    Password of user
+                    in: string
+                example: "123456"
+                type: string
+                x-go-name: Password
+            username:
+                description: |-
+                    Username of user
+                    in: string
+                example: admin
+                type: string
+                x-go-name: Username
+        required:
+            - username
+            - password
+            - nickname
+        type: object
+        x-go-package: go-echo/model/request
+    RegisterUserResponse:
+        properties:
+            id:
+                description: |-
+                    Id of user
+                    in: string
+                example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                type: string
+                x-go-name: Id
+        type: object
+        x-go-package: go-echo/model/response
     SuccessResponse:
         properties:
             data:
                 $ref: '#/definitions/DataResponse'
             errors:
+                additionalProperties:
+                    type: string
                 description: |-
                     Errors is the response message
                     in: string
+                type: object
                 x-go-name: Errors
             meta:
                 $ref: '#/definitions/MetaResponse'
         type: object
         x-go-name: responseHttp
         x-go-package: go-echo/model/base
+    UserProfileResponse:
+        properties:
+            Nickname:
+                description: |-
+                    Nickname of user
+                    in: string
+                example: John Doe
+                type: string
+            id:
+                description: |-
+                    Id of user
+                    in: string
+                example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                type: string
+                x-go-name: Id
+        type: object
+        x-go-package: go-echo/model/response
 info:
     title: 'Echo Boilerplate API:'
     version: "1.0"
@@ -207,9 +288,15 @@ paths:
             tags:
                 - Driver
     /user/login:
-        get:
+        post:
             description: Login user
             operationId: LoginRequest
+            parameters:
+                - in: body
+                  name: body
+                  schema:
+                    $ref: '#/definitions/LoginRequestBody'
+                  x-go-name: Body
             responses:
                 "200":
                     description: Success Response.
@@ -222,6 +309,61 @@ paths:
                                 type: object
                             meta:
                                 $ref: '#/definitions/MetaSingleSuccessResponse'
+            tags:
+                - User
+    /user/profile:
+        get:
+            description: User profile
+            operationId: UserProfileRequest
+            parameters:
+                - description: |-
+                    Id of user
+                    in: string
+                  example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                  in: query
+                  name: id
+                  type: string
+                  x-go-name: Id
+            responses:
+                "200":
+                    description: Success Response.
+                    schema:
+                        properties:
+                            data:
+                                properties:
+                                    record:
+                                        $ref: '#/definitions/UserProfileResponse'
+                                type: object
+                            meta:
+                                $ref: '#/definitions/MetaSingleSuccessResponse'
+            security:
+                - Bearer: []
+            tags:
+                - User
+    /user/register:
+        post:
+            description: Register user
+            operationId: RegisterUserRequest
+            parameters:
+                - in: body
+                  name: body
+                  schema:
+                    $ref: '#/definitions/RegisterUserRequestBody'
+                  x-go-name: Body
+            responses:
+                "200":
+                    description: Success Response.
+                    schema:
+                        properties:
+                            data:
+                                properties:
+                                    record:
+                                        $ref: '#/definitions/RegisterUserResponse'
+                                type: object
+                            meta:
+                                $ref: '#/definitions/MetaSingleSuccessResponse'
+            security:
+                - Bearer: []
             tags:
                 - User
 produces:

@@ -10,7 +10,26 @@ import (
 	"go.uber.org/zap"
 )
 
-func (s *userServiceImpl) RegisterUser(req request.RegisterUserRequest) (res response.RegisterUserResponse, msg message.Message, errMsg map[string]string) {
+// swagger:operation POST /user/register User RegisterUserRequest
+// Register user
+//
+// ---
+// security:
+// - Bearer: []
+// responses:
+//   '200':
+//     description: Success Response.
+//     schema:
+//       properties:
+//         meta:
+//           $ref: '#/definitions/MetaSingleSuccessResponse'
+//         data:
+//           properties:
+//             record:
+//               $ref: '#/definitions/RegisterUserResponse'
+//           type: object
+
+func (s *userServiceImpl) RegisterUser(req request.RegisterUserRequestBody) (res response.RegisterUserResponse, msg message.Message, errMsg map[string]string) {
 	logger := s.logger.With(zap.String("UserService", "RegisterUser"))
 	errMsg = map[string]string{}
 
@@ -25,10 +44,11 @@ func (s *userServiceImpl) RegisterUser(req request.RegisterUserRequest) (res res
 
 	createUserInput := parameter.CreateUserInput{
 		User: entity.User{
-			Username: req.Username,
-			Password: req.Password,
-			Nickname: req.Nickname,
-			Status:   "ACTIVE",
+			Username:  req.Username,
+			Password:  req.Password,
+			Nickname:  req.Nickname,
+			Status:    "ACTIVE",
+			CreatedBy: "system",
 		},
 	}
 

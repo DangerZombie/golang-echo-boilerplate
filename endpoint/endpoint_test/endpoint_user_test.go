@@ -31,7 +31,7 @@ func TestEndpointUser_Login(t *testing.T) {
 	)
 
 	e := echo.New()
-	loginRequest := request.LoginRequest{
+	loginRequest := request.LoginRequestBody{
 		Username: faker.Username(),
 		Password: faker.Name(),
 	}
@@ -42,7 +42,7 @@ func TestEndpointUser_Login(t *testing.T) {
 
 	t.Run("Should return OK", func(t *testing.T) {
 		reqBody, _ := json.Marshal(loginRequest)
-		req := httptest.NewRequest(http.MethodPost, "/api/user/login", strings.NewReader(string(reqBody)))
+		req := httptest.NewRequest(http.MethodPost, "/api/v1/user/login", strings.NewReader(string(reqBody)))
 		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
@@ -60,7 +60,7 @@ func TestEndpointUser_Login(t *testing.T) {
 
 	t.Run("Should return Bad Request if something went wrong", func(t *testing.T) {
 		reqBody, _ := json.Marshal(loginRequest)
-		req := httptest.NewRequest(http.MethodPost, "/api/user/login", strings.NewReader(string(reqBody)))
+		req := httptest.NewRequest(http.MethodPost, "/api/v1/user/login", strings.NewReader(string(reqBody)))
 		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
@@ -99,7 +99,7 @@ func TestEndpointUser_UserProfile(t *testing.T) {
 	}
 
 	t.Run("Should return OK", func(t *testing.T) {
-		url := fmt.Sprintf("/api/user/profile?id=%s", id)
+		url := fmt.Sprintf("/api/v1/user/profile?id=%s", id)
 		req := httptest.NewRequest(http.MethodGet, url, nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
 		req.Header.Set(echo.HeaderAuthorization, faker.JWT)
@@ -123,7 +123,7 @@ func TestEndpointUser_UserProfile(t *testing.T) {
 	})
 
 	t.Run("Should return Unauthorized", func(t *testing.T) {
-		url := fmt.Sprintf("/api/user/profile?id=%s", id)
+		url := fmt.Sprintf("/api/v1/user/profile?id=%s", id)
 		req := httptest.NewRequest(http.MethodGet, url, nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
 		req.Header.Set(echo.HeaderAuthorization, faker.JWT)
@@ -142,7 +142,7 @@ func TestEndpointUser_UserProfile(t *testing.T) {
 	})
 
 	t.Run("Should return Bad Request", func(t *testing.T) {
-		url := fmt.Sprintf("/api/user/profile?id=%s", id)
+		url := fmt.Sprintf("/api/v1/user/profile?id=%s", id)
 		req := httptest.NewRequest(http.MethodGet, url, nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
 		req.Header.Set(echo.HeaderAuthorization, faker.JWT)
@@ -180,7 +180,7 @@ func TestEndpointUser_RegisterUser(t *testing.T) {
 	username := faker.Username()
 	password := faker.Password()
 	nickname := faker.Name()
-	registerUserInput := request.RegisterUserRequest{
+	registerUserInput := request.RegisterUserRequestBody{
 		Username: username,
 		Password: password,
 		Nickname: nickname,
@@ -192,7 +192,7 @@ func TestEndpointUser_RegisterUser(t *testing.T) {
 
 	t.Run("Should return OK", func(t *testing.T) {
 		reqBody, _ := json.Marshal(registerUserInput)
-		req := httptest.NewRequest(http.MethodPost, "/api/user/register", strings.NewReader(string(reqBody)))
+		req := httptest.NewRequest(http.MethodPost, "/api/v1/user/register", strings.NewReader(string(reqBody)))
 		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
 		req.Header.Set(echo.HeaderAuthorization, faker.JWT)
 		rec := httptest.NewRecorder()
@@ -216,7 +216,7 @@ func TestEndpointUser_RegisterUser(t *testing.T) {
 
 	t.Run("Should return Unauthorized", func(t *testing.T) {
 		reqBody, _ := json.Marshal(registerUserInput)
-		req := httptest.NewRequest(http.MethodPost, "/api/user/register", strings.NewReader(string(reqBody)))
+		req := httptest.NewRequest(http.MethodPost, "/api/v1/user/register", strings.NewReader(string(reqBody)))
 		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
 		req.Header.Set(echo.HeaderAuthorization, faker.JWT)
 		rec := httptest.NewRecorder()
@@ -235,7 +235,7 @@ func TestEndpointUser_RegisterUser(t *testing.T) {
 
 	t.Run("Should return Bad Request", func(t *testing.T) {
 		reqBody, _ := json.Marshal(registerUserInput)
-		req := httptest.NewRequest(http.MethodPost, "/api/user/register", strings.NewReader(string(reqBody)))
+		req := httptest.NewRequest(http.MethodPost, "/api/v1/user/register", strings.NewReader(string(reqBody)))
 		req.Header.Set(echo.HeaderContentType, echo.MIMETextPlain)
 		req.Header.Set(echo.HeaderAuthorization, faker.JWT)
 		rec := httptest.NewRecorder()

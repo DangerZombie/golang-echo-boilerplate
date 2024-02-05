@@ -9,7 +9,7 @@ import (
 	"go.uber.org/zap"
 )
 
-// swagger:operation GET /user/login User LoginRequest
+// swagger:operation POST /user/login User LoginRequest
 // Login user
 //
 // ---
@@ -26,7 +26,7 @@ import (
 //               $ref: '#/definitions/LoginResponse'
 //           type: object
 
-func (s *userServiceImpl) Login(req request.LoginRequest) (res response.LoginResponse, msg message.Message, errMsg map[string]string) {
+func (s *userServiceImpl) Login(req request.LoginRequestBody) (res response.LoginResponse, msg message.Message, errMsg map[string]string) {
 	logger := s.logger.With(zap.String("UserService", "Login"))
 	errMsg = map[string]string{}
 

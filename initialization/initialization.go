@@ -43,8 +43,8 @@ func ServerInit(log *zap.Logger, db *gorm.DB) {
 	usertransport := transport.NewHttp(auth.NewAuthHelper())
 
 	r := echo.New()
-	apiGroupDriver := r.Group("/api/driver")
-	apiGroupUser := r.Group("/api/user")
+	apiGroupDriver := r.Group("/api/v1//driver")
+	apiGroupUser := r.Group("/api/v1/user")
 	transport.DriverHandler(apiGroupDriver, driverSvc)
 	usertransport.UserHandler(apiGroupUser, userSvc)
 	transport.SwaggerHttpHandler(r)

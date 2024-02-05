@@ -2,7 +2,7 @@
 //	 version: 1.0
 //	 title: Echo Framework Boilerplate
 //	Schemes: http, https
-//	BasePath: /development/api/v1
+//	BasePath: /api/v1
 //	  Consumes:
 //	  - application/json
 //	Produces:

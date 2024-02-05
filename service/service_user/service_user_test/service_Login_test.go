@@ -35,12 +35,12 @@ func TestLogin(t *testing.T) {
 	password := faker.Password()
 	token := faker.Jwt()
 
-	loginRequest := request.LoginRequest{
+	loginRequest := request.LoginRequestBody{
 		Username: username,
 		Password: password,
 	}
 
-	loginEmptyRequest := request.LoginRequest{
+	loginEmptyRequest := request.LoginRequestBody{
 		Username: "",
 		Password: "",
 	}
