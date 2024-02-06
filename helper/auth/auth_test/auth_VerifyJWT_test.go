@@ -3,6 +3,7 @@ package auth_test
 import (
 	"go-echo/helper/auth"
 	"go-echo/helper/static"
+	"go-echo/model/base"
 	"go-echo/model/entity"
 	"go-echo/model/parameter"
 	"go-echo/repository"
@@ -12,8 +13,7 @@ import (
 	"testing"
 
 	"github.com/go-faker/faker/v4"
-	"github.com/labstack/echo"
-	"github.com/spf13/viper"
+	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 )
@@ -29,14 +29,14 @@ func TestVerifyJWT(t *testing.T) {
 	)
 
 	e := echo.New()
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath("./../../..")
-	viper.SetConfigName("config-dev")
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic("config not found")
-	}
-	viper.AutomaticEnv()
+	// viper.SetConfigType("yaml")
+	// viper.AddConfigPath("./../../..")
+	// viper.SetConfigName("config-dev")
+	// err := viper.ReadInConfig()
+	// if err != nil {
+	// 	panic("config not found")
+	// }
+	// viper.AutomaticEnv()
 
 	id := faker.UUIDHyphenated()
 	findUserRoleByUserIdInput := parameter.FindUserRoleByUserIdInput{
@@ -44,7 +44,9 @@ func TestVerifyJWT(t *testing.T) {
 	}
 
 	findUserRoleByUserIdOutput := parameter.FindUserRoleByUserIdOutput{
-		Id:       id,
+		BaseModel: base.BaseModel{
+			Id: id,
+		},
 		Username: faker.Username(),
 		Password: faker.Password(),
 		Status:   "ACTIVE",

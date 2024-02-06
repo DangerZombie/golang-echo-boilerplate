@@ -11,66 +11,6 @@ definitions:
         type: object
         x-go-name: data
         x-go-package: go-echo/model/base
-    InsertDriverResponse:
-        properties:
-            created_at:
-                description: |-
-                    Created At
-                    in: string
-                example: "2023-03-30 10:39:44"
-                type: string
-                x-go-name: CreatedAt
-            created_by:
-                description: |-
-                    Created By
-                    in: string
-                example: system
-                type: string
-                x-go-name: CreatedBy
-            id:
-                description: |-
-                    ID
-                    in: string
-                example: 5c091047-f19c-4235-be8d-b6596aecf880
-                type: string
-                x-go-name: Id
-            is_available:
-                description: |-
-                    Is Available
-                    in: bool
-                example: true
-                type: boolean
-                x-go-name: IsAvailable
-            license_number:
-                description: |-
-                    Licensse Number
-                    in: string
-                example: "89011231091"
-                type: string
-                x-go-name: LicenseNumber
-            name:
-                description: |-
-                    Name
-                    in: string
-                example: John
-                type: string
-                x-go-name: Name
-            updated_at:
-                description: |-
-                    Updated At
-                    in: string
-                example: "2023-03-30 10:39:44"
-                type: string
-                x-go-name: UpdatedAt
-            updated_by:
-                description: |-
-                    Updated By
-                    in: string
-                example: system
-                type: string
-                x-go-name: UpdatedBy
-        type: object
-        x-go-package: go-echo/model/response
     LoginRequestBody:
         properties:
             password:
@@ -224,6 +164,253 @@ definitions:
         type: object
         x-go-name: responseHttp
         x-go-package: go-echo/model/base
+    TeacherCreateRequestBody:
+        properties:
+            degree:
+                description: |-
+                    Degree of the teacher
+                    in: string
+                example: B.Ed
+                type: string
+                x-go-name: Degree
+            experience:
+                description: |-
+                    Long time of experience in years
+                    in: int
+                example: 12
+                format: int64
+                type: integer
+                x-go-name: Experience
+            job_title_id:
+                description: |-
+                    Job Title Id of the teacher
+                    in: string
+                example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                type: string
+                x-go-name: JobTitleId
+            status:
+                description: |-
+                    Status of the teacher
+                    in: string
+                example: '[CONTRACT, ASSOCIATE, HONORER, PERMANENT]'
+                type: string
+                x-go-name: Status
+            user_id:
+                description: |-
+                    User Id of the teacher
+                    in: string
+                example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                type: string
+                x-go-name: UserId
+        required:
+            - user_id
+            - job_title_id
+            - status
+        type: object
+        x-go-package: go-echo/model/request
+    TeacherCreateResponse:
+        properties:
+            id:
+                description: |-
+                    Id of the teacher
+                    in: string
+                example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                type: string
+                x-go-name: Id
+        type: object
+        x-go-package: go-echo/model/response
+    TeacherDeleteResponse:
+        properties:
+            success:
+                description: |-
+                    Success message of deleted data
+                    in: bool
+                example: true
+                type: boolean
+                x-go-name: Success
+        type: object
+        x-go-package: go-echo/model/response
+    TeacherDetailResponse:
+        properties:
+            degree:
+                description: |-
+                    Last Education with degree
+                    in: string
+                example: B.Ed
+                type: string
+                x-go-name: Degree
+            email:
+                description: |-
+                    Email of the teacher
+                    in: string
+                example: teacher@school.edu
+                type: string
+                x-go-name: Email
+            experience:
+                description: |-
+                    Experience of the teacher
+                    in: int
+                example: 12
+                format: int64
+                type: integer
+                x-go-name: Experience
+            id:
+                description: |-
+                    Id of the teacher
+                    in: string
+                example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                type: string
+                x-go-name: Id
+            job_title_id:
+                description: |-
+                    Job Title Id of the teacher
+                    in: string
+                example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                type: string
+                x-go-name: JobTitleId
+            job_title_name:
+                description: |-
+                    Job Title Name of the teacher
+                    in: string
+                example: Principal
+                type: string
+                x-go-name: JobTitleName
+            nickname:
+                description: |-
+                    Nickname is the name of the teacher
+                    in: string
+                example: John
+                type: string
+                x-go-name: Nickname
+            status:
+                description: |-
+                    Status of the teacher
+                    in: string
+                example: CONTRACT
+                type: string
+                x-go-name: Status
+        type: object
+        x-go-package: go-echo/model/response
+    TeacherListResponse:
+        properties:
+            degree:
+                description: |-
+                    Last Education with degree
+                    in: string
+                example: B.Ed
+                type: string
+                x-go-name: Degree
+            email:
+                description: |-
+                    Email of teacher
+                    in: string
+                example: teacher@school.edu
+                type: string
+                x-go-name: Email
+            experience:
+                description: |-
+                    Experience of the teacher
+                    in: int
+                example: 12
+                format: int64
+                type: integer
+                x-go-name: Experience
+            id:
+                description: |-
+                    Id of teacher
+                    in: string
+                example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                type: string
+                x-go-name: Id
+            nickname:
+                description: |-
+                    Name of teacher
+                    in: string
+                example: John Doe
+                type: string
+                x-go-name: Nickname
+            status:
+                description: |-
+                    Status of the teacher
+                    in: string
+                example: CONTRACT
+                type: string
+                x-go-name: Status
+        type: object
+        x-go-package: go-echo/model/response
+    TeacherUpdateRequestBody:
+        properties:
+            degree:
+                description: |-
+                    Degree of the teacher
+                    in: string
+                example: B.Ed
+                type: string
+                x-go-name: Degree
+            experience:
+                description: |-
+                    Experience of the teacher
+                    in: int
+                example: 12
+                format: int64
+                type: integer
+                x-go-name: Experience
+            job_title_id:
+                description: |-
+                    Job Title Id
+                    in: string
+                example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                type: string
+                x-go-name: JobTitleId
+            status:
+                description: |-
+                    Status of the teacher
+                    in: string
+                example: CONTRACT
+                type: string
+                x-go-name: Status
+        type: object
+        x-go-package: go-echo/model/request
+    TeacherUpdateResponse:
+        properties:
+            degree:
+                description: |-
+                    Degree of the teacher
+                    in: string
+                example: B.Ed
+                type: string
+                x-go-name: Degree
+            experience:
+                description: |-
+                    Experience of the teacher
+                    in: int
+                example: 12
+                format: int64
+                type: integer
+                x-go-name: Experience
+            id:
+                description: |-
+                    Id of the teacher
+                    in: string
+                example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                type: string
+                x-go-name: Id
+            job_title_Id:
+                description: |-
+                    Job Title Id of the teacher
+                    in: string
+                example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                type: string
+                x-go-name: JobTitleId
+            status:
+                description: |-
+                    Status of the teacher
+                    in: string
+                example: CONTRACT
+                type: string
+                x-go-name: Status
+        type: object
+        x-go-package: go-echo/model/response
     UserProfileResponse:
         properties:
             Nickname:
@@ -245,32 +432,53 @@ info:
     title: 'Echo Boilerplate API:'
     version: "1.0"
 paths:
-    /driver/:
-        post:
-            description: Add Driver
-            operationId: InsertDriverRequest
+    /teacher:
+        get:
+            description: Teacher List
+            operationId: TeacherListRequest
             parameters:
                 - description: |-
-                    Name
+                    Page of the list
+                    in: int
+                  example: 1
+                  format: int64
+                  in: query
+                  name: page
+                  type: integer
+                  x-go-name: Page
+                - description: |-
+                    Limit row of each page
+                    in: int
+                  example: 1
+                  format: int64
+                  in: query
+                  name: limit
+                  type: integer
+                  x-go-name: Limit
+                - description: |-
+                    Sorting by column
                     in: string
+                  example: name
+                  in: query
+                  name: sort
+                  type: string
+                  x-go-name: Sort
+                - description: |-
+                    Direction of sorting
+                    in: string
+                  example: asc
+                  in: query
+                  name: dir
+                  type: string
+                  x-go-name: Dir
+                - description: |-
+                    Filtering name
+                    in: string
+                  example: John Doe
                   in: query
                   name: name
                   type: string
                   x-go-name: Name
-                - description: |-
-                    License Number
-                    in: string
-                  in: query
-                  name: license_number
-                  type: string
-                  x-go-name: LicenseNumber
-                - description: |-
-                    Is Available
-                    in: bool
-                  in: query
-                  name: is_available
-                  type: boolean
-                  x-go-name: IsAvailable
             responses:
                 "200":
                     description: Success Response.
@@ -279,14 +487,126 @@ paths:
                             data:
                                 properties:
                                     record:
-                                        $ref: '#/definitions/InsertDriverResponse'
+                                        $ref: '#/definitions/TeacherListResponse'
                                 type: object
                             meta:
                                 $ref: '#/definitions/MetaSingleSuccessResponse'
             security:
                 - Bearer: []
             tags:
-                - Driver
+                - Teacher
+        post:
+            description: Add Teacher
+            operationId: TeacherCreateRequest
+            parameters:
+                - in: body
+                  name: body
+                  schema:
+                    $ref: '#/definitions/TeacherCreateRequestBody'
+                  x-go-name: Body
+            responses:
+                "200":
+                    description: Success Response.
+                    schema:
+                        properties:
+                            data:
+                                properties:
+                                    record:
+                                        $ref: '#/definitions/TeacherCreateResponse'
+                                type: object
+                            meta:
+                                $ref: '#/definitions/MetaSingleSuccessResponse'
+            security:
+                - Bearer: []
+            tags:
+                - Teacher
+    /teacher/{id}:
+        delete:
+            description: Delete Teacher
+            operationId: TeacherDeleteRequest
+            parameters:
+                - description: Id of teacher
+                  example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                  in: path
+                  name: id
+                  required: true
+                  type: string
+                  x-go-name: Id
+            responses:
+                "200":
+                    description: Success Response.
+                    schema:
+                        properties:
+                            data:
+                                properties:
+                                    record:
+                                        $ref: '#/definitions/TeacherDeleteResponse'
+                                type: object
+                            meta:
+                                $ref: '#/definitions/MetaSingleSuccessResponse'
+            security:
+                - Bearer: []
+            tags:
+                - Teacher
+        get:
+            description: Teacher Detail
+            operationId: TeacherDetailRequest
+            parameters:
+                - description: Id of the teacher
+                  example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                  in: path
+                  name: id
+                  required: true
+                  type: string
+                  x-go-name: Id
+            responses:
+                "200":
+                    description: Success Response.
+                    schema:
+                        properties:
+                            data:
+                                properties:
+                                    record:
+                                        $ref: '#/definitions/TeacherDetailResponse'
+                                type: object
+                            meta:
+                                $ref: '#/definitions/MetaSingleSuccessResponse'
+            security:
+                - Bearer: []
+            tags:
+                - Teacher
+        put:
+            description: Teacher Update
+            operationId: TeacherUpdateRequest
+            parameters:
+                - description: Id of the teacher
+                  example: 4fc427da-91c7-45b5-b4f9-f6dcc646005f
+                  in: path
+                  name: id
+                  required: true
+                  type: string
+                  x-go-name: Id
+                - in: body
+                  name: body
+                  schema:
+                    $ref: '#/definitions/TeacherUpdateRequestBody'
+                  x-go-name: Body
+            responses:
+                "200":
+                    description: Success Response.
+                    schema:
+                        properties:
+                            data:
+                                properties:
+                                    record:
+                                        $ref: '#/definitions/TeacherUpdateResponse'
+                                type: object
+                            meta:
+                                $ref: '#/definitions/MetaSingleSuccessResponse'
+            security:
+                - Bearer: []
+            tags:
+                - Teacher
     /user/login:
         post:
             description: Login user

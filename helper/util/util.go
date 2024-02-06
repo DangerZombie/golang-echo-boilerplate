@@ -2,11 +2,12 @@ package util
 
 import (
 	"net/http"
+	"strconv"
 	"time"
 )
 
-func UnixToFullDate(unix int64, layout string) string {
-	tm := time.Unix(unix, 0).Format(layout)
+func UnixMilliToFullDate(unix int64, layout string) string {
+	tm := time.UnixMilli(unix).Format(layout)
 
 	return tm
 }
@@ -26,4 +27,17 @@ func WrappingStatusCode(msgCode int) int {
 	default:
 		return http.StatusOK
 	}
+}
+
+func StringToInt(input string) (output int) {
+	if input == "" {
+		output = 0
+	}
+
+	output, err := strconv.Atoi(input)
+	if err != nil {
+		output = 0
+	}
+
+	return
 }

@@ -4,7 +4,7 @@ import (
 	"go-echo/endpoint"
 	"go-echo/service/service_user"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func (h *httpImpl) UserHandler(group *echo.Group, s service_user.UserService) {

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"go-echo/helper/auth"
 	"go-echo/initialization"
+	"go-echo/model/base"
 	"go-echo/model/entity"
 	"go-echo/model/parameter"
 	"go-echo/model/request"
@@ -33,6 +34,7 @@ func TestRegisterUser(t *testing.T) {
 		mockUserRepository)
 
 	id := faker.UUIDHyphenated()
+	issuerId := faker.UUIDHyphenated()
 	username := faker.Username()
 	password := faker.Password()
 	nickname := faker.Name()
@@ -40,15 +42,19 @@ func TestRegisterUser(t *testing.T) {
 		Username: username,
 		Password: password,
 		Nickname: nickname,
+		Issuer:   issuerId,
 	}
 
 	createUserInput := parameter.CreateUserInput{
 		User: entity.User{
-			Username:  registerUserRequest.Username,
-			Password:  registerUserRequest.Password,
-			Nickname:  registerUserRequest.Nickname,
-			Status:    "ACTIVE",
-			CreatedBy: "system",
+			Username: registerUserRequest.Username,
+			Password: registerUserRequest.Password,
+			Nickname: registerUserRequest.Nickname,
+			Status:   "ACTIVE",
+			BaseModel: base.BaseModel{
+				CreatedBy: issuerId,
+				UpdatedBy: issuerId,
+			},
 		},
 	}
 

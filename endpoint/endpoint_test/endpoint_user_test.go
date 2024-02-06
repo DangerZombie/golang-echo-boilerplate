@@ -18,7 +18,7 @@ import (
 	"testing"
 
 	"github.com/go-faker/faker/v4"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 )
@@ -179,19 +179,20 @@ func TestEndpointUser_RegisterUser(t *testing.T) {
 
 	e := echo.New()
 	id := faker.UUIDHyphenated()
+	issuerId := faker.UUIDHyphenated()
 	username := faker.Username()
 	password := faker.Password()
 	nickname := faker.Name()
 
 	claims := parameter.JwtClaims{
-		Issuer:  faker.UUIDHyphenated(),
+		Issuer:  issuerId,
 		Subject: username,
 		User:    nickname,
 		Roles:   []string{static.RoleADMINISTRATOR},
 	}
 
 	claimsWrongRole := parameter.JwtClaims{
-		Issuer:  faker.UUIDHyphenated(),
+		Issuer:  issuerId,
 		Subject: username,
 		User:    nickname,
 		Roles:   []string{faker.Username()},
@@ -201,6 +202,7 @@ func TestEndpointUser_RegisterUser(t *testing.T) {
 		Username: username,
 		Password: password,
 		Nickname: nickname,
+		Issuer:   issuerId,
 	}
 
 	registerUserOutput := response.RegisterUserResponse{

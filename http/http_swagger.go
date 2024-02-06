@@ -2,10 +2,10 @@ package http
 
 import (
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
-func SwaggerHttpHandler(r *echo.Echo) {
+func (h *httpImpl) SwaggerHttpHandler(r *echo.Echo) {
 	// serve swagger spec file
 	r.GET("/swagger.yaml", func(c echo.Context) error {
 		return c.File("swagger.yaml")
