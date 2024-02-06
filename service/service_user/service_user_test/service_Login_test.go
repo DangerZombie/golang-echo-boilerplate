@@ -31,6 +31,7 @@ func TestLogin(t *testing.T) {
 		mockBaseRepository,
 		mockUserRepository)
 
+	id := faker.UUIDHyphenated()
 	username := faker.Name()
 	password := faker.Password()
 	token := faker.Jwt()
@@ -51,7 +52,7 @@ func TestLogin(t *testing.T) {
 	}
 
 	findUserByUsernameAndPasswordOutput := parameter.FindUserByUsernameAndPasswordOutput{
-		Id:       faker.UUIDHyphenated(),
+		Id:       id,
 		Username: username,
 		Password: password,
 	}
@@ -68,7 +69,7 @@ func TestLogin(t *testing.T) {
 			Return(findUserByUsernameAndPasswordOutput, nil)
 
 		mockAuthHelper.EXPECT().
-			GenerateJWT(username).
+			GenerateJWT(id).
 			Times(1).
 			Return(token, nil)
 
@@ -117,7 +118,7 @@ func TestLogin(t *testing.T) {
 			Return(findUserByUsernameAndPasswordOutput, nil)
 
 		mockAuthHelper.EXPECT().
-			GenerateJWT(username).
+			GenerateJWT(id).
 			Times(1).
 			Return("", errors.New("failed"))
 

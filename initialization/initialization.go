@@ -39,8 +39,22 @@ func DbInit() (*gorm.DB, error) {
 
 func ServerInit(log *zap.Logger, db *gorm.DB) {
 	driverSvc := service_driver.NewDriverService(log, repository.NewBaseRepository(db), repository_driver.NewDriverRepository(repository.NewBaseRepository(db)))
-	userSvc := service_user.NewUserService(log, auth.NewAuthHelper(), repository.NewBaseRepository(db), repository_user.NewUserRepository(repository.NewBaseRepository(db)))
-	usertransport := transport.NewHttp(auth.NewAuthHelper())
+	userSvc := service_user.NewUserService(
+		log,
+		auth.NewAuthHelper(
+			repository.NewBaseRepository(db),
+			repository_user.NewUserRepository(repository.NewBaseRepository(db)),
+		),
+		repository.NewBaseRepository(db),
+		repository_user.NewUserRepository(repository.NewBaseRepository(db)),
+	)
+
+	usertransport := transport.NewHttp(
+		auth.NewAuthHelper(
+			repository.NewBaseRepository(db),
+			repository_user.NewUserRepository(repository.NewBaseRepository(db)),
+		),
+	)
 
 	r := echo.New()
 	apiGroupDriver := r.Group("/api/v1//driver")

@@ -17,3 +17,7 @@ var (
 	LayoutInvoice            = "20060102"
 	Loc, _                   = time.LoadLocation("Asia/Jakarta")
 )
+
+const (
+	RoleADMINISTRATOR = "ADMINISTRATOR"
+)

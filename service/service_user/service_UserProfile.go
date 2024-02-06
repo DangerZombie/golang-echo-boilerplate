@@ -29,7 +29,7 @@ import (
 //           type: object
 
 func (s *userServiceImpl) UserProfile(req request.UserProfileRequest) (res response.UserProfileResponse, msg message.Message, errMsg map[string]string) {
-	logger := s.logger.With(zap.String("UserService", "Login"))
+	logger := s.logger.With(zap.String("UserService", "UserProfile"))
 	errMsg = map[string]string{}
 
 	if req.Id == "" {

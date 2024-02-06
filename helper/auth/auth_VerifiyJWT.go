@@ -3,6 +3,7 @@ package auth
 import (
 	"errors"
 	"fmt"
+	"go-echo/model/parameter"
 	"net/http"
 	"strings"
 
@@ -10,10 +11,10 @@ import (
 	"github.com/spf13/viper"
 )
 
-// TODO: need to fix verifying JWT
-func (h *authHelperImpl) VerifyJWT(headers http.Header) (string, error) {
+func (h *authHelperImpl) VerifyJWT(headers http.Header) (output parameter.JwtClaims, err error) {
 	if headers.Get("Authorization") == "" {
-		return "", errors.New("token is null, need valid token")
+		err = errors.New("token is null, need valid token")
+		return
 	}
 
 	tokenString := strings.Split(headers["Authorization"][0], " ")[1]
@@ -27,20 +28,27 @@ func (h *authHelperImpl) VerifyJWT(headers http.Header) (string, error) {
 
 	// Verify the token
 	if err != nil {
-		return "", err
-	}
-
-	if !token.Valid {
-		err = fmt.Errorf("errors: %s", "token invalid")
-		return "", err
+		return
 	}
 
 	// Access the claims
-	_, ok := token.Claims.(jwt.MapClaims)
+	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
 		err = fmt.Errorf("errors: %s", "token invalid")
-		return "", err
+		return
 	}
 
-	return "", nil
+	roles := []string{}
+	for _, role := range claims["roles"].([]interface{}) {
+		roles = append(roles, role.(string))
+	}
+
+	output = parameter.JwtClaims{
+		Issuer:  claims["iss"].(string),
+		Subject: claims["sub"].(string),
+		User:    claims["usr"].(string),
+		Roles:   roles,
+	}
+
+	return
 }

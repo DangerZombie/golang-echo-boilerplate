@@ -2,6 +2,13 @@ package parameter
 
 import "go-echo/model/entity"
 
+type JwtClaims struct {
+	Issuer  string
+	Subject string
+	User    string
+	Roles   []string
+}
+
 type FindUserByUsernameAndPasswordInput struct {
 	Username string
 	Password string
@@ -25,3 +32,9 @@ type CreateUserInput struct {
 type CreateUserOutput struct {
 	Id string
 }
+
+type FindUserRoleByUserIdInput struct {
+	Id string
+}
+
+type FindUserRoleByUserIdOutput entity.User
