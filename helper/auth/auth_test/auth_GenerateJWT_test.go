@@ -4,6 +4,7 @@ import (
 	"errors"
 	"go-echo/helper/auth"
 	"go-echo/helper/static"
+	"go-echo/model/base"
 	"go-echo/model/entity"
 	"go-echo/model/parameter"
 	"go-echo/repository"
@@ -31,7 +32,9 @@ func TestAuthGenerateJWT(t *testing.T) {
 	}
 
 	findUserRoleByUserIdOutput := parameter.FindUserRoleByUserIdOutput{
-		Id:       id,
+		BaseModel: base.BaseModel{
+			Id: id,
+		},
 		Username: faker.Username(),
 		Password: faker.Password(),
 		Status:   "ACTIVE",

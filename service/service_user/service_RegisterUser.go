@@ -2,6 +2,7 @@ package service_user
 
 import (
 	"go-echo/helper/message"
+	"go-echo/model/base"
 	"go-echo/model/entity"
 	"go-echo/model/parameter"
 	"go-echo/model/request"
@@ -44,11 +45,14 @@ func (s *userServiceImpl) RegisterUser(req request.RegisterUserRequestBody) (res
 
 	createUserInput := parameter.CreateUserInput{
 		User: entity.User{
-			Username:  req.Username,
-			Password:  req.Password,
-			Nickname:  req.Nickname,
-			Status:    "ACTIVE",
-			CreatedBy: "system",
+			Username: req.Username,
+			Password: req.Password,
+			Nickname: req.Nickname,
+			Status:   "ACTIVE",
+			BaseModel: base.BaseModel{
+				CreatedBy: req.Issuer,
+				UpdatedBy: req.Issuer,
+			},
 		},
 	}
 

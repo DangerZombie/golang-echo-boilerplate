@@ -4,6 +4,7 @@ import (
 	"errors"
 	"go-echo/helper/auth"
 	"go-echo/initialization"
+	"go-echo/model/base"
 	"go-echo/model/parameter"
 	"go-echo/model/request"
 	"go-echo/repository"
@@ -52,7 +53,9 @@ func TestLogin(t *testing.T) {
 	}
 
 	findUserByUsernameAndPasswordOutput := parameter.FindUserByUsernameAndPasswordOutput{
-		Id:       id,
+		BaseModel: base.BaseModel{
+			Id: id,
+		},
 		Username: username,
 		Password: password,
 	}

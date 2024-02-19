@@ -10,7 +10,7 @@ import (
 	"net/http"
 
 	"github.com/go-faker/faker/v4/pkg/slice"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func (e *endpointImpl) LoginRequest(ctx echo.Context, s service_user.UserService) (int, interface{}) {
@@ -74,6 +74,7 @@ func (e *endpointImpl) RegisterUserRequest(ctx echo.Context, s service_user.User
 
 	req := request.RegisterUserRequestBody{}
 	_ = json.NewDecoder(ctx.Request().Body).Decode(&req)
+	req.Issuer = claims.Issuer
 	result, msg, errMsg := s.RegisterUser(req)
 
 	var wrap interface{}

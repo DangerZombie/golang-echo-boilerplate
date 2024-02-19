@@ -52,4 +52,6 @@ type RegisterUserRequestBody struct {
 	// example: Administrator
 	// required: true
 	Nickname string `json:"nickname"`
+
+	Issuer string `json:"-"`
 }

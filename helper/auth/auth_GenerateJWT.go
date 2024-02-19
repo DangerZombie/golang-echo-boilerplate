@@ -4,7 +4,7 @@ import (
 	"go-echo/model/parameter"
 	"time"
 
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/viper"
 )
 

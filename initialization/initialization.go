@@ -5,12 +5,12 @@ import (
 	"go-echo/helper/database"
 	transport "go-echo/http"
 	"go-echo/repository"
-	"go-echo/repository/repository_driver"
+	"go-echo/repository/repository_teacher"
 	"go-echo/repository/repository_user"
-	"go-echo/service/service_driver"
+	"go-echo/service/service_teacher"
 	"go-echo/service/service_user"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -38,30 +38,45 @@ func DbInit() (*gorm.DB, error) {
 }
 
 func ServerInit(log *zap.Logger, db *gorm.DB) {
-	driverSvc := service_driver.NewDriverService(log, repository.NewBaseRepository(db), repository_driver.NewDriverRepository(repository.NewBaseRepository(db)))
-	userSvc := service_user.NewUserService(
-		log,
-		auth.NewAuthHelper(
-			repository.NewBaseRepository(db),
-			repository_user.NewUserRepository(repository.NewBaseRepository(db)),
-		),
-		repository.NewBaseRepository(db),
-		repository_user.NewUserRepository(repository.NewBaseRepository(db)),
+	// base repository
+	baseRepository := repository.NewBaseRepository(db)
+	teacherRepository := repository_teacher.NewTeacherRepository(baseRepository)
+	userRepository := repository_user.NewUserRepository(baseRepository)
+
+	// auth helper
+	authHelper := auth.NewAuthHelper(
+		baseRepository,
+		userRepository,
 	)
 
-	usertransport := transport.NewHttp(
-		auth.NewAuthHelper(
-			repository.NewBaseRepository(db),
-			repository_user.NewUserRepository(repository.NewBaseRepository(db)),
-		),
+	// service
+	teacherSvc := service_teacher.NewTeacherService(
+		log,
+		baseRepository,
+		teacherRepository,
+	)
+
+	userSvc := service_user.NewUserService(
+		log,
+		authHelper,
+		baseRepository,
+		userRepository,
 	)
 
 	r := echo.New()
-	apiGroupDriver := r.Group("/api/v1//driver")
+
+	// group endpoint
+	apiGroupTeacher := r.Group("/api/v1/teacher")
 	apiGroupUser := r.Group("/api/v1/user")
-	transport.DriverHandler(apiGroupDriver, driverSvc)
-	usertransport.UserHandler(apiGroupUser, userSvc)
-	transport.SwaggerHttpHandler(r)
+
+	// transport
+	transportHandler := transport.NewHttp(
+		authHelper,
+	)
+
+	transportHandler.SwaggerHttpHandler(r)
+	transportHandler.TeacherHandler(apiGroupTeacher, teacherSvc)
+	transportHandler.UserHandler(apiGroupUser, userSvc)
 
 	r.Start(":9000")
 }
