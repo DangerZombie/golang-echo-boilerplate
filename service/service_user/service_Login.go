@@ -37,6 +37,13 @@ func (s *userServiceImpl) Login(req request.LoginRequestBody) (res response.Logi
 	}
 
 	tx := s.baseRepo.GetBegin()
+	defer func() {
+		if msg != message.SuccessMsg {
+			s.baseRepo.BeginRollback(tx)
+		} else {
+			s.baseRepo.BeginCommit(tx)
+		}
+	}()
 
 	findUserByUsernameAndPasswordInput := parameter.FindUserByUsernameAndPasswordInput{
 		Username: req.Username,
