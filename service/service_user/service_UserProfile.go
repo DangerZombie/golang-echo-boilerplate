@@ -39,6 +39,13 @@ func (s *userServiceImpl) UserProfile(req request.UserProfileRequest) (res respo
 	}
 
 	tx := s.baseRepo.GetBegin()
+	defer func() {
+		if msg != message.SuccessMsg {
+			s.baseRepo.BeginRollback(tx)
+		} else {
+			s.baseRepo.BeginCommit(tx)
+		}
+	}()
 
 	findUserByIdInput := parameter.FindUserByIdInput{
 		Id: req.Id,

@@ -76,6 +76,11 @@ func TestLogin(t *testing.T) {
 			Times(1).
 			Return(token, nil)
 
+		mockBaseRepository.EXPECT().
+			BeginCommit(gomock.Any()).
+			Times(1).
+			Return()
+
 		result, message, err := userService.Login(loginRequest)
 
 		require.Equal(t, token, result.Token)
@@ -102,6 +107,11 @@ func TestLogin(t *testing.T) {
 			Times(1).
 			Return(parameter.FindUserByUsernameAndPasswordOutput{}, errors.New("failed"))
 
+		mockBaseRepository.EXPECT().
+			BeginRollback(gomock.Any()).
+			Times(1).
+			Return()
+
 		result, message, err := userService.Login(loginRequest)
 
 		require.Empty(t, result)
@@ -124,6 +134,11 @@ func TestLogin(t *testing.T) {
 			GenerateJWT(id).
 			Times(1).
 			Return("", errors.New("failed"))
+
+		mockBaseRepository.EXPECT().
+			BeginRollback(gomock.Any()).
+			Times(1).
+			Return()
 
 		result, message, err := userService.Login(loginRequest)
 

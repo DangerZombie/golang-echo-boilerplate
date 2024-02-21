@@ -61,6 +61,11 @@ func TestUserProfile(t *testing.T) {
 			Times(1).
 			Return(findUserByIdOutput, nil)
 
+		mockBaseRepository.EXPECT().
+			BeginCommit(gomock.Any()).
+			Times(1).
+			Return()
+
 		result, msg, err := userService.UserProfile(userProfileRequest)
 
 		require.NotEmpty(t, result)
@@ -86,6 +91,11 @@ func TestUserProfile(t *testing.T) {
 			FindUserById(gomock.Any(), findUserByIdInput).
 			Times(1).
 			Return(parameter.FindUserByIdOutput{}, errors.New("failed"))
+
+		mockBaseRepository.EXPECT().
+			BeginRollback(gomock.Any()).
+			Times(1).
+			Return()
 
 		result, msg, err := userService.UserProfile(userProfileRequest)
 
