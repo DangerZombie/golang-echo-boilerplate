@@ -10,7 +10,7 @@ import (
 type BaseModel struct {
 	// ID
 	// in: string
-	Id string `gorm:"type:uuid,primary_key" json:"id"`
+	Id string `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// Created At UTC0
 	// in: int64

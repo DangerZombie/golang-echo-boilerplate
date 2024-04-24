@@ -1,6 +1,6 @@
 module go-echo
 
-go 1.20
+go 1.22
 
 require (
 	github.com/go-faker/faker/v4 v4.2.0
