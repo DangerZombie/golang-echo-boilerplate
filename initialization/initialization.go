@@ -31,8 +31,10 @@ func DbInit() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	// _ = db.AutoMigrate(&model.Driver{})
-	// _ = db.AutoMigrate(&model.Vehicle{})
+	// _ = db.AutoMigrate(&entity.Role{})
+	// _ = db.AutoMigrate(&entity.JobTitle{})
+	// _ = db.AutoMigrate(&entity.Teacher{})
+	// _ = db.AutoMigrate(&entity.User{})
 
 	return db, nil
 }
